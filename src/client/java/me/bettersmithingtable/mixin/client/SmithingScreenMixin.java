@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.*;
 @Mixin(SmithingScreen.class)
 public abstract class SmithingScreenMixin {
     private static final Quaternionf ARMOR_STAND_ROTATION = (new Quaternionf())
-            .rotationXYZ(MathHelper.PI * 0.05f, 0, MathHelper.PI);
+            .rotationXYZ(MathHelper.PI * 0.12f, 0, MathHelper.PI);
 
     /**
      * Redirect titleX assignment in constructor to do nothing to preserve default values.
@@ -53,11 +53,14 @@ public abstract class SmithingScreenMixin {
     }
 
 
-    /*@Redirect(method = "setup", at = @At(value = "FIELD", opcode = Opcodes.PUTFIELD,
+    /**
+     * Redirect assignment to customize armor stand yaw value.
+     */
+    @Redirect(method = "setup", at = @At(value = "FIELD", opcode = Opcodes.PUTFIELD,
             target = "Lnet/minecraft/entity/decoration/ArmorStandEntity;bodyYaw:F"))
     private void assignBodyYaw(ArmorStandEntity instance, float value) {
-        // Here one would customize the armor stands yaw.
-    }*/
+        instance.bodyYaw = 200;
+    }
 
     /**
      * Redirect these calls and make them do nothing to hide the icons.
@@ -81,6 +84,6 @@ public abstract class SmithingScreenMixin {
         y -= 75;
 
         // Draw the armor stand at ts new position (in this case 143, 66)
-        InventoryScreen.drawEntity(context, x + 143, y + 67, size, ARMOR_STAND_ROTATION, q2, entity);
+        InventoryScreen.drawEntity(context, x + 142, y + 67, size, ARMOR_STAND_ROTATION, q2, entity);
     }
 }
