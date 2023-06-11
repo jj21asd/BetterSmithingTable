@@ -2,7 +2,6 @@ package me.bettersmithingtable.mixin.client;
 
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.recipe.SmithingRecipe;
 import net.minecraft.screen.ForgingScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.ScreenHandlerType;
@@ -31,10 +30,10 @@ public abstract class SmithingScreenHandlerMixin extends ForgingScreenHandler {
     @Overwrite
     public ForgingSlotsManager getForgingSlotsManager() {
         return ForgingSlotsManager.create()
-                .input(0, 47, 35, this::testTemplateSlot) // Smithing template slot
-                .input(1, 19, 47, this::testBaseSlot) // Armor slot
-                .input(2, 19, 23, this::testAdditionSlot) // Trim/upgrade material slot
-                .output(3, 97, 35).build();
+                .input(0, 45, 35, this::testTemplateSlot) // Smithing template slot
+                .input(1, 17, 47, this::testBaseSlot) // Armor slot
+                .input(2, 17, 23, this::testAdditionSlot) // Trim/upgrade material slot
+                .output(3, 95, 35).build();
     }
 
     private boolean testTemplateSlot(ItemStack stack) {
