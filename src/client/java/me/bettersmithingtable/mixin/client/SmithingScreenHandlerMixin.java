@@ -23,7 +23,7 @@ public abstract class SmithingScreenHandlerMixin extends ForgingScreenHandler {
     }
 
     /**
-     * Replaces the original slot initialization code to change the positions of the slots.
+     * Replace the original slot initialization code to change the positions of the slots.
      * @author jjblock21
      * @reason Change slot positions to fit with the new design.
      */

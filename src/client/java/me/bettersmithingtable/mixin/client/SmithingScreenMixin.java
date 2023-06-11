@@ -27,7 +27,7 @@ public abstract class SmithingScreenMixin {
             .rotationXYZ(MathHelper.PI * 0.12f, 0, MathHelper.PI);
 
     /**
-     * Redirect titleX assignment in constructor to do nothing to preserve default values.
+     * Redirect titleX assignment in constructor to preserve default values.
      */
     @Redirect(method = "<init>", at = @At(value = "FIELD", opcode = Opcodes.PUTFIELD,
             target = "Lnet/minecraft/client/gui/screen/ingame/SmithingScreen;titleX:I"))
@@ -37,7 +37,7 @@ public abstract class SmithingScreenMixin {
     }
 
     /**
-     * Redirect titleX assignment in constructor to do nothing to preserve default values.
+     * Redirect titleX assignment in constructor to preserve default values.
      */
     @Redirect(method = "<init>", at = @At(value = "FIELD", opcode = Opcodes.PUTFIELD,
             target = "Lnet/minecraft/client/gui/screen/ingame/SmithingScreen;titleY:I"))
@@ -47,7 +47,7 @@ public abstract class SmithingScreenMixin {
     }
 
     /**
-     * Inject a method to modify the texture passed into the constructor of ForgingScreen.
+     * Swap the texture passed into the constructor of ForgingScreen with the updated texture.
      */
     @ModifyArg(method = "<init>", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/gui/screen/ingame/ForgingScreen;<init>(Lnet/minecraft/screen/ForgingScreenHandler;Lnet/minecraft/entity/player/PlayerInventory;Lnet/minecraft/text/Text;Lnet/minecraft/util/Identifier;)V"),
@@ -65,6 +65,21 @@ public abstract class SmithingScreenMixin {
             target = "Lnet/minecraft/entity/decoration/ArmorStandEntity;bodyYaw:F"))
     private void assignBodyYaw(ArmorStandEntity instance, float value) {
         instance.bodyYaw = ARMOR_STAND_YAW;
+    }
+
+    /**
+     * Redirect call to context.drawTexture to draw the invalid recipe arrow at the right position.
+     */
+    @Redirect(method = "drawInvalidRecipeArrow", at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/client/gui/DrawContext;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V"))
+
+    private void drawInvalidRecipeArrow(DrawContext instance, Identifier texture, int x, int y, int u, int v, int width, int height) {
+        // Get back the original x and y:
+        x -= 65;
+        y -= 46;
+
+        // Draw the arrow from the new texture at the right location.
+        instance.drawTexture(BetterSmithingTableClient.SMITHING_MENU_LOCATION, x + 63, y + 33, u, v, width, height);
     }
 
     /**
