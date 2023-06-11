@@ -18,6 +18,11 @@ import org.spongepowered.asm.mixin.injection.*;
 
 @Mixin(SmithingScreen.class)
 public abstract class SmithingScreenMixin {
+
+    private static final int ARMOR_STAND_X = 142;
+    private static final int ARMOR_STAND_Y = 67;
+    private static final int ARMOR_STAND_YAW = 200;
+
     private static final Quaternionf ARMOR_STAND_ROTATION = (new Quaternionf())
             .rotationXYZ(MathHelper.PI * 0.12f, 0, MathHelper.PI);
 
@@ -49,7 +54,7 @@ public abstract class SmithingScreenMixin {
             index = 3)
 
     private static Identifier getTextureInSuperConstructor(Identifier texture) {
-        return BetterSmithingTableClient.SMITHING_MENU;
+        return BetterSmithingTableClient.SMITHING_MENU_LOCATION;
     }
 
 
@@ -59,7 +64,7 @@ public abstract class SmithingScreenMixin {
     @Redirect(method = "setup", at = @At(value = "FIELD", opcode = Opcodes.PUTFIELD,
             target = "Lnet/minecraft/entity/decoration/ArmorStandEntity;bodyYaw:F"))
     private void assignBodyYaw(ArmorStandEntity instance, float value) {
-        instance.bodyYaw = 200;
+        instance.bodyYaw = ARMOR_STAND_YAW;
     }
 
     /**
@@ -84,6 +89,6 @@ public abstract class SmithingScreenMixin {
         y -= 75;
 
         // Draw the armor stand at ts new position (in this case 143, 66)
-        InventoryScreen.drawEntity(context, x + 142, y + 67, size, ARMOR_STAND_ROTATION, q2, entity);
+        InventoryScreen.drawEntity(context, x + ARMOR_STAND_X, y + ARMOR_STAND_Y, size, ARMOR_STAND_ROTATION, q2, entity);
     }
 }
