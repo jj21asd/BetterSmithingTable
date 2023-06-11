@@ -31,10 +31,10 @@ public abstract class SmithingScreenHandlerMixin extends ForgingScreenHandler {
     @Overwrite
     public ForgingSlotsManager getForgingSlotsManager() {
         return ForgingSlotsManager.create()
-                .input(0, 0, 0, this::testTemplateSlot) // Smithing template slot
-                .input(1, 0, 20, this::testBaseSlot) // Armor slot
-                .input(2, 0, 40, this::testAdditionSlot) // Trim/upgrade material slot
-                .output(3, 0, 60).build();
+                .input(0, 47, 35, this::testTemplateSlot) // Smithing template slot
+                .input(1, 19, 47, this::testBaseSlot) // Armor slot
+                .input(2, 19, 23, this::testAdditionSlot) // Trim/upgrade material slot
+                .output(3, 97, 35).build();
     }
 
     private boolean testTemplateSlot(ItemStack stack) {
