@@ -18,7 +18,8 @@ import org.spongepowered.asm.mixin.injection.*;
 
 @Mixin(SmithingScreen.class)
 public abstract class SmithingScreenMixin {
-    private static final Quaternionf ARMOR_STAND_ROTATION = (new Quaternionf()).rotationXYZ(MathHelper.PI, 0, 0);
+    private static final Quaternionf ARMOR_STAND_ROTATION = (new Quaternionf())
+            .rotationXYZ(MathHelper.PI * 0.05f, 0, MathHelper.PI);
 
     /**
      * Redirect titleX assignment in constructor to do nothing to preserve default values.
@@ -51,14 +52,12 @@ public abstract class SmithingScreenMixin {
         return BetterSmithingTableClient.SMITHING_MENU;
     }
 
-    /**
-     * Redirect the call to do nothing to prevent messing with the armor stands rotation.
-     */
-    @Redirect(method = "setup", at = @At(value = "FIELD", opcode = Opcodes.PUTFIELD,
+
+    /*@Redirect(method = "setup", at = @At(value = "FIELD", opcode = Opcodes.PUTFIELD,
             target = "Lnet/minecraft/entity/decoration/ArmorStandEntity;bodyYaw:F"))
     private void assignBodyYaw(ArmorStandEntity instance, float value) {
-        // Do nothing
-    }
+        // Here one would customize the armor stands yaw.
+    }*/
 
     /**
      * Redirect these calls and make them do nothing to hide the icons.
@@ -77,7 +76,11 @@ public abstract class SmithingScreenMixin {
             target = "Lnet/minecraft/client/gui/screen/ingame/InventoryScreen;drawEntity(Lnet/minecraft/client/gui/DrawContext;IIILorg/joml/Quaternionf;Lorg/joml/Quaternionf;Lnet/minecraft/entity/LivingEntity;)V"))
 
     private void drawArmorStandPreview(DrawContext context, int x, int y, int size, Quaternionf rotation, @Nullable Quaternionf q2, LivingEntity entity) {
-        // For now just draw the armor stand at the same position.
-        InventoryScreen.drawEntity(context, x, y, size, ARMOR_STAND_ROTATION, q2, entity);
+        // Little hack to get back the original x and y
+        x -= 141;
+        y -= 75;
+
+        // Draw the armor stand at ts new position (in this case 143, 66)
+        InventoryScreen.drawEntity(context, x + 144, y + 67, size, ARMOR_STAND_ROTATION, q2, entity);
     }
 }
