@@ -1,0 +1,29 @@
+{
+	"schemaVersion": 1,
+	"id": "better_smithing_table",
+	"version": "${version}",
+	"name": "BetterSmithingTable",
+	"description": "PLACEHOLDER",
+	"authors": [
+		"jjblock21"
+	],
+	"license": "CC0-1.0",
+	"icon": "assets/better_smithing_table/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"client": [
+			"me.bettersmithingtable.BetterSmithingTableClient"
+		]
+	},
+	"mixins": [
+		{
+			"config": "modid.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.14.21",
+		"minecraft": "~1.20",
+		"java": ">=17"
+	}
+}
