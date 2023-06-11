@@ -1,9 +1,9 @@
 {
 	"schemaVersion": 1,
 	"id": "better_smithing_table",
-	"version": "${version}",
+	"version": "1.0.0",
 	"name": "BetterSmithingTable",
-	"description": "PLACEHOLDER",
+	"description": "I don't like the new smithing interface, so I made a mod to make it look a little better.",
 	"authors": [
 		"jjblock21"
 	],
