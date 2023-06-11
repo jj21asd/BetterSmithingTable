@@ -81,6 +81,6 @@ public abstract class SmithingScreenMixin {
         y -= 75;
 
         // Draw the armor stand at ts new position (in this case 143, 66)
-        InventoryScreen.drawEntity(context, x + 144, y + 67, size, ARMOR_STAND_ROTATION, q2, entity);
+        InventoryScreen.drawEntity(context, x + 143, y + 67, size, ARMOR_STAND_ROTATION, q2, entity);
     }
 }
