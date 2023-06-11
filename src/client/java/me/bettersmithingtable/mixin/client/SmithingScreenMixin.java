@@ -6,6 +6,7 @@ import net.minecraft.client.gui.screen.ingame.CyclingSlotIcon;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.gui.screen.ingame.SmithingScreen;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
@@ -48,6 +49,15 @@ public abstract class SmithingScreenMixin {
 
     private static Identifier getTextureInSuperConstructor(Identifier texture) {
         return BetterSmithingTableClient.SMITHING_MENU;
+    }
+
+    /**
+     * Redirect the call to do nothing to prevent messing with the armor stands rotation.
+     */
+    @Redirect(method = "setup", at = @At(value = "FIELD", opcode = Opcodes.PUTFIELD,
+            target = "Lnet/minecraft/entity/decoration/ArmorStandEntity;bodyYaw:F"))
+    private void assignBodyYaw(ArmorStandEntity instance, float value) {
+        // Do nothing
     }
 
     /**
