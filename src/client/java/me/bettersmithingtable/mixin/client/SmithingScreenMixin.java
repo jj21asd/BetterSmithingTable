@@ -18,11 +18,7 @@ import org.spongepowered.asm.mixin.injection.*;
 
 @Mixin(SmithingScreen.class)
 public abstract class SmithingScreenMixin {
-
-    private static final int ARMOR_STAND_X = 142;
-    private static final int ARMOR_STAND_Y = 67;
     private static final int ARMOR_STAND_YAW = 200;
-
     private static final Quaternionf ARMOR_STAND_ROTATION = (new Quaternionf())
             .rotationXYZ(MathHelper.PI * 0.12f, 0, MathHelper.PI);
 
@@ -57,7 +53,6 @@ public abstract class SmithingScreenMixin {
         return BetterSmithingTableClient.SMITHING_MENU_LOCATION;
     }
 
-
     /**
      * Redirect assignment to customize armor stand yaw value.
      */
@@ -83,6 +78,15 @@ public abstract class SmithingScreenMixin {
     }
 
     /**
+     * Redirect drawSlotTooltip to draw custom tooltips.
+     */
+    @Redirect(method = "render", at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/client/gui/screen/ingame/SmithingScreen;renderSlotTooltip(Lnet/minecraft/client/gui/DrawContext;II)V"))
+    private void renderSLotTooltip(SmithingScreen instance, DrawContext context, int mouseX, int mouseY) {
+        // Currently this does nothing to hide all tooltips, but this can be changed in the future.
+    }
+
+    /**
      * Redirect these calls and make them do nothing to hide the icons.
      */
     @Redirect(method = "drawBackground", at = @At(value = "INVOKE",
@@ -103,7 +107,7 @@ public abstract class SmithingScreenMixin {
         x -= 141;
         y -= 75;
 
-        // Draw the armor stand at ts new position (in this case 143, 66)
-        InventoryScreen.drawEntity(context, x + ARMOR_STAND_X, y + ARMOR_STAND_Y, size, ARMOR_STAND_ROTATION, q2, entity);
+        // Draw the armor stand at its new position:
+        InventoryScreen.drawEntity(context, x + 142, y + 67, size, ARMOR_STAND_ROTATION, q2, entity);
     }
 }
