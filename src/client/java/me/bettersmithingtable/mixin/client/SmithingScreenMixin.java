@@ -22,6 +22,8 @@ public abstract class SmithingScreenMixin {
     private static final Quaternionf ARMOR_STAND_ROTATION = (new Quaternionf())
             .rotationXYZ(MathHelper.PI * 0.12f, 0, MathHelper.PI);
 
+    // --- Remove some original functionality ---
+
     /**
      * Redirect titleX assignment in constructor to preserve default values.
      */
@@ -43,6 +45,28 @@ public abstract class SmithingScreenMixin {
     }
 
     /**
+     * Redirect call to context.drawTexture to hide the invalid recipe arrow.
+     */
+    @Redirect(method = "drawInvalidRecipeArrow", at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/client/gui/DrawContext;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V"))
+
+    private void drawInvalidRecipeArrow(DrawContext instance, Identifier texture, int x, int y, int u, int v, int width, int height) {
+        // Do nothing
+    }
+
+    /**
+     * Redirect these calls and make them do nothing to hide the icons.
+     */
+    @Redirect(method = "drawBackground", at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/client/gui/screen/ingame/CyclingSlotIcon;render(Lnet/minecraft/screen/ScreenHandler;Lnet/minecraft/client/gui/DrawContext;FII)V"))
+
+    private void renderCyclingSlotIcon(CyclingSlotIcon icon, ScreenHandler screenHandler, DrawContext context, float delta, int x, int y) {
+        // Do nothing.
+    }
+
+    // --- Customize stuff ---
+
+    /**
      * Swap the texture passed into the constructor of ForgingScreen with the updated texture.
      */
     @ModifyArg(method = "<init>", at = @At(value = "INVOKE",
@@ -59,22 +83,8 @@ public abstract class SmithingScreenMixin {
     @Redirect(method = "setup", at = @At(value = "FIELD", opcode = Opcodes.PUTFIELD,
             target = "Lnet/minecraft/entity/decoration/ArmorStandEntity;bodyYaw:F"))
     private void assignBodyYaw(ArmorStandEntity instance, float value) {
+        // Use custom armor stand yaw.
         instance.bodyYaw = ARMOR_STAND_YAW;
-    }
-
-    /**
-     * Redirect call to context.drawTexture to draw the invalid recipe arrow at the right position.
-     */
-    @Redirect(method = "drawInvalidRecipeArrow", at = @At(value = "INVOKE",
-            target = "Lnet/minecraft/client/gui/DrawContext;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V"))
-
-    private void drawInvalidRecipeArrow(DrawContext instance, Identifier texture, int x, int y, int u, int v, int width, int height) {
-        // Get back the original x and y:
-        x -= 65;
-        y -= 46;
-
-        // Draw the arrow from the new texture at the right location.
-        instance.drawTexture(BetterSmithingTableClient.SMITHING_MENU_LOCATION, x + 63, y + 33, u, v, width, height);
     }
 
     /**
@@ -84,16 +94,6 @@ public abstract class SmithingScreenMixin {
             target = "Lnet/minecraft/client/gui/screen/ingame/SmithingScreen;renderSlotTooltip(Lnet/minecraft/client/gui/DrawContext;II)V"))
     private void renderSLotTooltip(SmithingScreen instance, DrawContext context, int mouseX, int mouseY) {
         // Currently this does nothing to hide all tooltips, but this can be changed in the future.
-    }
-
-    /**
-     * Redirect these calls and make them do nothing to hide the icons.
-     */
-    @Redirect(method = "drawBackground", at = @At(value = "INVOKE",
-            target = "Lnet/minecraft/client/gui/screen/ingame/CyclingSlotIcon;render(Lnet/minecraft/screen/ScreenHandler;Lnet/minecraft/client/gui/DrawContext;FII)V"))
-
-    private void renderCyclingSlotIcon(CyclingSlotIcon icon, ScreenHandler screenHandler, DrawContext context, float delta, int x, int y) {
-        // Do nothing.
     }
 
     /**
