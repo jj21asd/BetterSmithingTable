@@ -24,45 +24,21 @@ public abstract class SmithingScreenMixin {
 
     // --- Remove some original functionality ---
 
-    /**
-     * Redirect titleX assignment in constructor to preserve default values.
-     */
     @Redirect(method = "<init>", at = @At(value = "FIELD", opcode = Opcodes.PUTFIELD,
             target = "Lnet/minecraft/client/gui/screen/ingame/SmithingScreen;titleX:I"))
+    private void assignTitleX(SmithingScreen instance, int value) { }
 
-    private void assignTitleX(SmithingScreen instance, int value) {
-        // Do nothing.
-    }
-
-    /**
-     * Redirect titleX assignment in constructor to preserve default values.
-     */
     @Redirect(method = "<init>", at = @At(value = "FIELD", opcode = Opcodes.PUTFIELD,
             target = "Lnet/minecraft/client/gui/screen/ingame/SmithingScreen;titleY:I"))
+    private void assignTitleY(SmithingScreen instance, int value) { }
 
-    private void assignTitleY(SmithingScreen instance, int value) {
-        // Do nothing
-    }
-
-    /**
-     * Redirect call to context.drawTexture to hide the invalid recipe arrow.
-     */
     @Redirect(method = "drawInvalidRecipeArrow", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/gui/DrawContext;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V"))
+    private void drawInvalidRecipeArrow(DrawContext instance, Identifier texture, int x, int y, int u, int v, int width, int height) { }
 
-    private void drawInvalidRecipeArrow(DrawContext instance, Identifier texture, int x, int y, int u, int v, int width, int height) {
-        // Do nothing
-    }
-
-    /**
-     * Redirect these calls and make them do nothing to hide the icons.
-     */
     @Redirect(method = "drawBackground", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/gui/screen/ingame/CyclingSlotIcon;render(Lnet/minecraft/screen/ScreenHandler;Lnet/minecraft/client/gui/DrawContext;FII)V"))
-
-    private void renderCyclingSlotIcon(CyclingSlotIcon icon, ScreenHandler screenHandler, DrawContext context, float delta, int x, int y) {
-        // Do nothing.
-    }
+    private void renderCyclingSlotIcon(CyclingSlotIcon icon, ScreenHandler screenHandler, DrawContext context, float delta, int x, int y) { }
 
     // --- Customize stuff ---
 
