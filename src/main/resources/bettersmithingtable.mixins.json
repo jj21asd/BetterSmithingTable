@@ -1,0 +1,13 @@
+{
+	"required": true,
+	"package": "jjblock21.bettersmithingtable.mixin",
+	"compatibilityLevel": "JAVA_17",
+	"client": [
+		"SmithingScreenMixin",
+		"SmithingScreenHandlerAccessor",
+		"SmithingScreenHandlerMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

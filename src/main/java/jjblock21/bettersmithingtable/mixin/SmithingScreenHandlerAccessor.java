@@ -1,4 +1,4 @@
-package me.bettersmithingtable.mixin.client;
+package jjblock21.bettersmithingtable.mixin;
 
 import net.minecraft.recipe.SmithingRecipe;
 import net.minecraft.screen.SmithingScreenHandler;

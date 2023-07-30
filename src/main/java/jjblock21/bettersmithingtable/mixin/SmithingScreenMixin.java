@@ -1,6 +1,6 @@
-package me.bettersmithingtable.mixin.client;
+package jjblock21.bettersmithingtable.mixin;
 
-import me.bettersmithingtable.BetterSmithingTableClient;
+import jjblock21.bettersmithingtable.BetterSmithingTable;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.CyclingSlotIcon;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
@@ -50,7 +50,7 @@ public abstract class SmithingScreenMixin {
             index = 3)
 
     private static Identifier getTextureInSuperConstructor(Identifier texture) {
-        return BetterSmithingTableClient.SMITHING_MENU_LOCATION;
+        return BetterSmithingTable.SMITHING_MENU_LOCATION;
     }
 
     /**
