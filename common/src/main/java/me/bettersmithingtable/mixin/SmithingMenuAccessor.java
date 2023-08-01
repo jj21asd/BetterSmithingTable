@@ -1,14 +1,14 @@
-package jjblock21.bettersmithingtable.mixin;
+package me.bettersmithingtable.mixin;
 
-import net.minecraft.recipe.SmithingRecipe;
-import net.minecraft.screen.SmithingScreenHandler;
+import net.minecraft.world.inventory.SmithingMenu;
+import net.minecraft.world.item.crafting.SmithingRecipe;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
 import java.util.List;
 
-@Mixin(SmithingScreenHandler.class)
-public interface SmithingScreenHandlerAccessor {
+@Mixin(SmithingMenu.class)
+public interface SmithingMenuAccessor {
 
     /**
      * Used to access the list of recipes.

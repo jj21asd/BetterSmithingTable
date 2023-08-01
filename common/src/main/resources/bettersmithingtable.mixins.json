@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "me.bettersmithingtable.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "SmithingMenuAccessor",
+    "SmithingMenuMixin",
+    "SmithingScreenMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
