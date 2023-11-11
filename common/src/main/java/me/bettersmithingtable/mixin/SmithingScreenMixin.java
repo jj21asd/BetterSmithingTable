@@ -10,6 +10,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import org.joml.Quaternionf;
+import org.joml.Vector3f;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.*;
@@ -76,14 +77,14 @@ public abstract class SmithingScreenMixin {
      * Redirect call to InventoryScreen.drawEntity to draw armor stand with custom rotation and offset.
      */
     @Redirect(method = "renderBg", at = @At(value = "INVOKE",
-            target = "Lnet/minecraft/client/gui/screens/inventory/InventoryScreen;renderEntityInInventory(Lnet/minecraft/client/gui/GuiGraphics;IIILorg/joml/Quaternionf;Lorg/joml/Quaternionf;Lnet/minecraft/world/entity/LivingEntity;)V"))
+            target = "Lnet/minecraft/client/gui/screens/inventory/InventoryScreen;renderEntityInInventory(Lnet/minecraft/client/gui/GuiGraphics;FFILorg/joml/Vector3f;Lorg/joml/Quaternionf;Lorg/joml/Quaternionf;Lnet/minecraft/world/entity/LivingEntity;)V"))
 
-    private void drawArmorStandPreview(GuiGraphics guiGraphics, int x, int y, int size, Quaternionf rotation, Quaternionf q2, LivingEntity entity) {
+    private void drawArmorStandPreview(GuiGraphics guiGraphics, float x, float y, int size, Vector3f vec, Quaternionf rotation, Quaternionf q2, LivingEntity entity) {
         // Little hack to get back the original x and y
         x -= 141;
         y -= 75;
 
         // Draw the armor stand at its new position:
-        InventoryScreen.renderEntityInInventory(guiGraphics, x + 111, y + 67, size, BetterSmithingTable.ARMOR_STAND_ROTATION, q2, entity);
+        InventoryScreen.renderEntityInInventory(guiGraphics, x + 111, y + 67, size, vec, BetterSmithingTable.ARMOR_STAND_ROTATION, q2, entity);
     }
 }
