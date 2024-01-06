@@ -53,7 +53,7 @@ public abstract class SmithingScreenMixin extends ItemCombinerScreen<SmithingMen
     /*
      * Define custom code for rendering the background to remove the CyclingSlotIcons and customize how the armor stand is drawn.
      */
-    @Inject(method = "renderBg", at = @At(value = "INVOKE",
+    @Inject(method = "renderBg", at = @At(value = "INVOKE", shift = At.Shift.AFTER,
             target = "Lnet/minecraft/client/gui/screens/inventory/ItemCombinerScreen;renderBg(Lnet/minecraft/client/gui/GuiGraphics;FII)V"), cancellable = true)
     private void renderBg(GuiGraphics guiGraphics, float f, int i, int j, CallbackInfo ci) {
 
