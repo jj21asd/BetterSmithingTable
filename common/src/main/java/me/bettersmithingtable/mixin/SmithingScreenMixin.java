@@ -4,20 +4,34 @@ import me.bettersmithingtable.BetterSmithingTable;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.CyclingSlotBackground;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
+import net.minecraft.client.gui.screens.inventory.ItemCombinerScreen;
 import net.minecraft.client.gui.screens.inventory.SmithingScreen;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.decoration.ArmorStand;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.SmithingMenu;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.*;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(SmithingScreen.class)
-public abstract class SmithingScreenMixin {
+public abstract class SmithingScreenMixin extends ItemCombinerScreen<SmithingMenu> {
+
+    @Shadow
+    private ArmorStand armorStandPreview;
+
+    // Dummy constructor to satisfy java
+    public SmithingScreenMixin(SmithingMenu itemCombinerMenu, Inventory inventory, Component component, ResourceLocation resourceLocation) {
+        super(itemCombinerMenu, inventory, component, resourceLocation);
+    }
 
     /*
      * Prevent changing the title label position to have it show up at the default position.
@@ -34,6 +48,19 @@ public abstract class SmithingScreenMixin {
     @Inject(method = "hasRecipeError", at = @At("HEAD"), cancellable = true)
     private void hasRecipeError(CallbackInfoReturnable<Boolean> cir) {
         cir.setReturnValue(false); // Always return false to hide the invalid recipe arrow.
+    }
+
+    /*
+     * Define custom code for rendering the background to remove the CyclingSlotIcons and customize how the armor stand is drawn.
+     */
+    @Inject(method = "renderBg", at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/client/gui/screens/inventory/ItemCombinerScreen;renderBg(Lnet/minecraft/client/gui/GuiGraphics;FII)V"), cancellable = true)
+    private void renderBg(GuiGraphics guiGraphics, float f, int i, int j, CallbackInfo ci) {
+
+        InventoryScreen.renderEntityInInventory(guiGraphics, leftPos + 111, topPos + 67, 25, new Vector3f(),
+                BetterSmithingTable.ARMOR_STAND_ROTATION, null, armorStandPreview);
+
+        ci.cancel(); // Don't execute the rest of the function.
     }
 
     /*
@@ -69,22 +96,7 @@ public abstract class SmithingScreenMixin {
      */
     @Redirect(method = "render", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/gui/screens/inventory/SmithingScreen;renderOnboardingTooltips(Lnet/minecraft/client/gui/GuiGraphics;II)V"))
-    private void renderSLotTooltip(SmithingScreen instance, GuiGraphics guiGraphics, int i, int j) {
+    private void renderSlotTooltip(SmithingScreen instance, GuiGraphics guiGraphics, int i, int j) {
         // Currently this does nothing to hide all tooltips, but this can be changed in the future.
-    }
-
-    /**
-     * Redirect call to InventoryScreen.drawEntity to draw armor stand with custom rotation and offset.
-     */
-    @Redirect(method = "renderBg", at = @At(value = "INVOKE",
-            target = "Lnet/minecraft/client/gui/screens/inventory/InventoryScreen;renderEntityInInventory(Lnet/minecraft/client/gui/GuiGraphics;FFILorg/joml/Vector3f;Lorg/joml/Quaternionf;Lorg/joml/Quaternionf;Lnet/minecraft/world/entity/LivingEntity;)V"))
-
-    private void drawArmorStandPreview(GuiGraphics guiGraphics, float x, float y, int size, Vector3f vec, Quaternionf rotation, Quaternionf q2, LivingEntity entity) {
-        // Little hack to get back the original x and y
-        x -= 141;
-        y -= 75;
-
-        // Draw the armor stand at its new position:
-        InventoryScreen.renderEntityInInventory(guiGraphics, x + 111, y + 67, size, vec, BetterSmithingTable.ARMOR_STAND_ROTATION, q2, entity);
     }
 }
