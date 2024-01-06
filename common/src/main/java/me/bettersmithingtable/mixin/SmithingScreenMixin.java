@@ -63,13 +63,6 @@ public abstract class SmithingScreenMixin extends ItemCombinerScreen<SmithingMen
         ci.cancel(); // Don't execute the rest of the function.
     }
 
-    /*
-     * Redirect CyclingSlotBackground.render to hide dynamic slot icons.
-     */
-    @Redirect(method = "renderBg", at = @At(value = "INVOKE",
-            target = "Lnet/minecraft/client/gui/screens/inventory/CyclingSlotBackground;render(Lnet/minecraft/world/inventory/AbstractContainerMenu;Lnet/minecraft/client/gui/GuiGraphics;FII)V"))
-    private void renderCyclingSlotIcon(CyclingSlotBackground instance, AbstractContainerMenu abstractContainerMenu, GuiGraphics guiGraphics, float f, int i, int j) { }
-
     /**
      * Swap the texture passed into the constructor of ItemCombinerScreen with the updated texture.
      */
