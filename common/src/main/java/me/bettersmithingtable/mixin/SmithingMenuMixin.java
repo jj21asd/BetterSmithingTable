@@ -20,7 +20,7 @@ public abstract class SmithingMenuMixin extends ItemCombinerMenu {
     @Shadow @Final
     private List<RecipeHolder<SmithingRecipe>> recipes;
 
-    public SmithingMenuMixin(@Nullable MenuType<?> menuType, int i, Inventory inventory, ContainerLevelAccess containerLevelAccess) {
+    public SmithingMenuMixin(MenuType<?> menuType, int i, Inventory inventory, ContainerLevelAccess containerLevelAccess) {
         super(menuType, i, inventory, containerLevelAccess);
     }
 

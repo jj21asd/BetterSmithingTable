@@ -60,7 +60,7 @@ public abstract class SmithingScreenMixin extends ItemCombinerScreen<SmithingMen
         InventoryScreen.renderEntityInInventory(guiGraphics, leftPos + 111, topPos + 67, 25, new Vector3f(),
                 BetterSmithingTable.ARMOR_STAND_ROTATION, null, armorStandPreview);
 
-        ci.cancel(); // Don't execute the rest of the function.
+        ci.cancel(); // Skip the rest of the function.
     }
 
     /**

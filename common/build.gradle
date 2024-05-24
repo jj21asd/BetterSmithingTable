@@ -8,10 +8,6 @@ architectury {
     common("fabric", "forge")
 }
 
-loom {
-    accessWidenerPath = file("src/main/resources/bettersmithingtable.accesswidener")
-}
-
 publishing {
     publications {
         mavenCommon(MavenPublication) {
