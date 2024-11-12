@@ -1,31 +1,29 @@
 {
   "schemaVersion": 1,
-  "id": "bettersmithingtable",
+  "id": "better_smithing_ui",
   "version": "${version}",
-
-  "name": "BetterSmithingTable",
-  "description": "Makes the new 1.20 smithing interface look a little better.",
+  "name": "Better Smithing UI",
+  "description": "This is an example description! Tell everyone what your mod is about!",
   "authors": [
-    "jjblock21"
+    "jj21"
   ],
   "contact": {
-    "sources": "https://github.com/jjblock21/BetterSmithingTable",
-    "issues": "https://github.com/jjblock21/BetterSmithingTable/issues"
+    "sources": "https://github.com/jj21asd/BetterSmithingTable"
   },
   "license": "MIT",
-  "icon": "assets/bettersmithingtable/icon.png",
-  "environment": "client",
+  "icon": "assets/better_smithing_ui/icon.png",
+  "environment": "*",
   "entrypoints": {
-    "client": [
-      "me.bettersmithingtable.fabric.BetterSmithingTableFabric"
+    "main": [
+      "me.smithingui.fabric.SmithingUIFabric"
     ]
   },
   "mixins": [
-    "bettersmithingtable.mixins.json"
+    "better_smithing_ui.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.14.24",
-    "minecraft": ">=1.20.2",
-    "fabric-api": "*"
+    "fabricloader": ">=0.16.9",
+    "minecraft": "~1.20.1",
+    "java": ">=17"
   }
 }

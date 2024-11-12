@@ -1,11 +1,13 @@
 {
   "required": true,
-  "minVersion": "0.8",
-  "package": "me.bettersmithingtable.mixin",
+  "package": "me.smithingui.mixin",
   "compatibilityLevel": "JAVA_17",
-  "mixins": [
-    "SmithingMenuMixin",
+  "minVersion": "0.8",
+  "client": [
     "SmithingScreenMixin"
+  ],
+  "mixins": [
+    "SmithingMenuMixin"
   ],
   "injectors": {
     "defaultRequire": 1

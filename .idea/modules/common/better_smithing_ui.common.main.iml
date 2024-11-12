@@ -8,6 +8,7 @@
           <platformType>MCP</platformType>
           <platformType>FABRIC</platformType>
         </autoDetectTypes>
+        <projectReimportVersion>1</projectReimportVersion>
       </configuration>
     </facet>
   </component>
