@@ -1,14 +1,17 @@
 package me.smithingui;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.ResourceManager;
-import org.joml.Quaternionf;
 
 public final class SmithingUI {
     public static final String MOD_ID = "better_smithing_ui";
-    public static final String DISPLAY_NAME = "Better Smithing UI";
 
-    public static void init() {
+    public static void init(BuiltInPackRegistry packRegistry) {
+        packRegistry.register("dark_mode", Component.literal("Dark Smithing UI"));
+        packRegistry.register("transparent", Component.literal("Transparent Smithing UI"));
+    }
 
+    public static ResourceLocation asResource(String path) {
+        return new ResourceLocation(MOD_ID, path);
     }
 }
