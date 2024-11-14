@@ -7,7 +7,7 @@
     "SmithingScreenMixin"
   ],
   "mixins": [
-    "SmithingMenuMixin"
+    "SmithingScreenHandlerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

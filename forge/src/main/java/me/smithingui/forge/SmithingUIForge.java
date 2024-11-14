@@ -7,6 +7,6 @@ import me.smithingui.SmithingUI;
 @Mod(SmithingUI.MOD_ID)
 public final class SmithingUIForge {
     public SmithingUIForge() {
-        SmithingUI.init(new BuiltInPackRegistryForge()); // Run common setup
+        SmithingUI.init(); // Run common setup
     }
 }

@@ -7,6 +7,6 @@ import me.smithingui.SmithingUI;
 public final class SmithingUIFabric implements ModInitializer {
     @Override
     public void onInitialize() {
-        SmithingUI.init(new BuiltInPackRegistryFabric());
+        SmithingUI.init(); // Run common setup
     }
 }
