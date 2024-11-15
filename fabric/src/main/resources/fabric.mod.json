@@ -3,10 +3,14 @@
   "id": "better_smithing_ui",
   "version": "${version}",
   "name": "Better Smithing UI",
-  "description": "",
+  "description": "Replaces the ugly vanilla smithing menu with an improved version",
   "authors": [
     "jjblock21"
   ],
+  "contact": {
+    "sources": "https://github.com/jj21asd/BetterSmithingUI",
+    "issues": "https://github.com/jj21asd/BetterSmithingUI/issues"
+  },
   "license": "MIT",
   "icon": "assets/better_smithing_ui/icon.png",
   "environment": "client",
