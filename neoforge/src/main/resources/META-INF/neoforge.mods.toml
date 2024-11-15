@@ -1,5 +1,5 @@
 modLoader = "javafml"
-loaderVersion = "[2,)"
+loaderVersion = "[4,)"
 #issueTrackerURL = ""
 license = "MIT"
 
@@ -14,21 +14,21 @@ description = ''''''
 [[dependencies.better_smithing_ui]]
 modId = "neoforge"
 type = "required"
-versionRange = "[20.4,)"
+versionRange = "[21.0,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.better_smithing_ui]]
 modId = "minecraft"
 type = "required"
-versionRange = "[1.20.4,)"
+versionRange = "[1.21,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.better_smithing_ui]]
 modId = "architectury"
 type = "required"
-versionRange = "[11.1.17,)"
+versionRange = "[13.0.2,)"
 ordering = "AFTER"
 side = "BOTH"
 

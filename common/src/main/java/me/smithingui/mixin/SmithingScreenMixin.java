@@ -1,7 +1,7 @@
 package me.smithingui.mixin;
 
 import me.smithingui.SmithingUI;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.ForgingScreen;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.gui.screen.ingame.SmithingScreen;
@@ -31,7 +31,7 @@ public abstract class SmithingScreenMixin extends ForgingScreen<SmithingScreenHa
             .rotationXYZ(MathHelper.PI * 0.12f, 0, MathHelper.PI);
 
     @Shadow
-    private ArmorStandEntity display;
+    private ArmorStandEntity armorStand;
 
     public SmithingScreenMixin(SmithingScreenHandler handler, PlayerInventory playerInventory,
                                Text title, Identifier texture) {
@@ -47,16 +47,16 @@ public abstract class SmithingScreenMixin extends ForgingScreen<SmithingScreenHa
             target = "Lnet/minecraft/client/gui/screen/ingame/SmithingScreen;titleY:I"))
     private void assignTitleY(SmithingScreen instance, int value) { }
 
-    @Inject(method = "isRecipeError", at = @At("HEAD"), cancellable = true)
-    private void hasRecipeError(CallbackInfoReturnable<Boolean> cir) {
+    @Inject(method = "hasInvalidRecipe", at = @At("HEAD"), cancellable = true)
+    private void hasInvalidRecipe(CallbackInfoReturnable<Boolean> cir) {
         cir.setReturnValue(false); // Hide the invalid recipe arrow
     }
 
     @Inject(method = "drawBackground", at = @At(value = "INVOKE", shift = At.Shift.AFTER,
-            target = "Lnet/minecraft/client/gui/screen/ingame/ForgingScreen;drawBackground(Lnet/minecraft/client/gui/GuiGraphics;FII)V"), cancellable = true)
-    private void renderBg(GuiGraphics guiGraphics, float f, int i, int j, CallbackInfo ci) {
-        InventoryScreen.drawEntity(guiGraphics, x + 111, y + 67, 25, new Vector3f(),
-                STAND_ROT, new Quaternionf(), display);
+            target = "Lnet/minecraft/client/gui/screen/ingame/ForgingScreen;drawBackground(Lnet/minecraft/client/gui/DrawContext;FII)V"), cancellable = true)
+    private void drawBackground(DrawContext drawContext, float f, int i, int j, CallbackInfo ci) {
+        InventoryScreen.drawEntity(drawContext, x + 111, y + 67, 25, new Vector3f(),
+                STAND_ROT, new Quaternionf(), armorStand);
         ci.cancel(); // Skip the rest of the function
     }
 
@@ -74,8 +74,8 @@ public abstract class SmithingScreenMixin extends ForgingScreen<SmithingScreenHa
     }
 
     @Redirect(method = "render", at = @At(value = "INVOKE",
-            target = "Lnet/minecraft/client/gui/screen/ingame/SmithingScreen;renderTooltips(Lnet/minecraft/client/gui/GuiGraphics;II)V"))
-    private void renderSlotTooltip(SmithingScreen instance, GuiGraphics guiGraphics, int i, int j) {
+            target = "Lnet/minecraft/client/gui/screen/ingame/SmithingScreen;renderSlotTooltip(Lnet/minecraft/client/gui/DrawContext;II)V"))
+    private void renderSlotTooltip(SmithingScreen instance, DrawContext optional, int itemStack, int itemStack2) {
         // Hide all tooltips
     }
 }

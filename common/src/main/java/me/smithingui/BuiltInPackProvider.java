@@ -3,19 +3,21 @@ package me.smithingui;
 import dev.architectury.hooks.PackRepositoryHooks;
 import dev.architectury.platform.Platform;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.resource.ResourceType;
-import net.minecraft.resource.pack.*;
+import net.minecraft.resource.*;
 import net.minecraft.text.Text;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Consumer;
 
-public class BuiltInPackProvider implements PackProvider {
+public class BuiltInPackProvider implements ResourcePackProvider {
     private final String rootPath;
-    private final List<PackProfile> profiles;
+    private final List<ResourcePackProfile> profiles;
+
+    private static final ResourcePackPosition INSERT_POS;
 
     public BuiltInPackProvider(String rootPath) {
         this.rootPath = rootPath;
@@ -23,7 +25,7 @@ public class BuiltInPackProvider implements PackProvider {
     }
 
     public static void register(BuiltInPackProvider packProvider) {
-        PackManager manager = MinecraftClient.getInstance().getResourcePackManager();
+        ResourcePackManager manager = MinecraftClient.getInstance().getResourcePackManager();
         PackRepositoryHooks.addSource(manager, packProvider);
     }
 
@@ -31,9 +33,9 @@ public class BuiltInPackProvider implements PackProvider {
         Platform.getMod(SmithingUI.MOD_ID).findResource(rootPath, path).ifPresentOrElse((nioPath) -> {
             String id = SmithingUI.MOD_ID + "/" + path;
 
-            PackProfile pack = PackProfile.of(id, name, false,
-                    new PackFactory(id, nioPath), ResourceType.CLIENT_RESOURCES,
-                    PackProfile.InsertionPosition.TOP, PackSource.PACK_SOURCE_BUILTIN);
+            ResourcePackProfile pack = ResourcePackProfile.create(
+                    new ResourcePackInfo(id, name, ResourcePackSource.BUILTIN, Optional.empty()),
+                    new BuiltInPackFactory(nioPath), ResourceType.CLIENT_RESOURCES, INSERT_POS);
 
             Objects.requireNonNull(pack);
             profiles.add(pack);
@@ -43,29 +45,26 @@ public class BuiltInPackProvider implements PackProvider {
     }
 
     @Override
-    public void loadPacks(Consumer<PackProfile> consumer) {
-        for (PackProfile profile : profiles) {
-            consumer.accept(profile);
+    public void register(Consumer<ResourcePackProfile> profileAdder) {
+        for (ResourcePackProfile profile : profiles) {
+            profileAdder.accept(profile);
         }
     }
 
-    private static class PackFactory implements PackProfile.PackFactory {
-        private final String id;
-        private final Path path;
+    static {
+        INSERT_POS = new ResourcePackPosition(false,
+                ResourcePackProfile.InsertionPosition.TOP, false);
+    }
 
-        public PackFactory(String id, Path path) {
-            this.id = id;
-            this.path = path;
+    private record BuiltInPackFactory(Path path) implements ResourcePackProfile.PackFactory {
+        @Override
+        public ResourcePack open(ResourcePackInfo info) {
+            return new DirectoryResourcePack(info, path);
         }
 
         @Override
-        public ResourcePack openPrimary(String name) {
-            return new NioResourcePack(id, path, true);
-        }
-
-        @Override
-        public ResourcePack open(String name, PackProfile.Info info) {
-            return openPrimary(name); // Idk what this is for
+        public ResourcePack openWithOverlays(ResourcePackInfo info, ResourcePackProfile.Metadata metadata) {
+            return open(info);
         }
     }
 }

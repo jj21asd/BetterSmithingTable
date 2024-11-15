@@ -20,6 +20,6 @@ public final class SmithingUI {
     }
 
     public static Identifier asId(String path) {
-        return new Identifier(MOD_ID, path);
+        return Identifier.of(MOD_ID, path);
     }
 }
