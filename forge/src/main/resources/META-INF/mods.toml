@@ -1,15 +1,17 @@
 modLoader = "javafml"
 loaderVersion = "[47,)"
-#issueTrackerURL = ""
+issueTrackerURL = "https://github.com/jj21asd/BetterSmithingUI/issues"
 license = "MIT"
 
 [[mods]]
 modId = "better_smithing_ui"
 version = "${version}"
 displayName = "Better Smithing UI"
-authors = "jj21"
-description = ''''''
-#logoFile = ""
+authors = "jjblock21"
+description = '''
+Replaces the ugly vanilla smithing menu with an improved version.
+'''
+logoFile = "assets/better_smithing_ui/icon.png"
 
 [[dependencies.better_smithing_ui]]
 modId = "forge"
@@ -23,4 +25,11 @@ modId = "minecraft"
 mandatory = true
 versionRange = "[1.20.1,)"
 ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.better_smithing_ui]]
+modId = "architectury"
+mandatory = true
+versionRange = "[9.2.14,)"
+ordering = "AFTER"
 side = "BOTH"
