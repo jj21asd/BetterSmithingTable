@@ -38,7 +38,7 @@ subprojects {
 
     dependencies {
         minecraft "net.minecraft:minecraft:$rootProject.minecraft_version"
-        mappings("org.quiltmc:quilt-mappings:1.20.1+build.23:intermediary-v2")
+        mappings("org.quiltmc:quilt-mappings:1.20.4+build.3:intermediary-v2")
     }
 
     java {

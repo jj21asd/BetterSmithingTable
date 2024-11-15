@@ -3,16 +3,13 @@
   "id": "better_smithing_ui",
   "version": "${version}",
   "name": "Better Smithing UI",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "description": "",
   "authors": [
-    "jj21"
+    "jjblock21"
   ],
-  "contact": {
-    "sources": "https://github.com/jj21asd/BetterSmithingTable"
-  },
   "license": "MIT",
   "icon": "assets/better_smithing_ui/icon.png",
-  "environment": "*",
+  "environment": "client",
   "entrypoints": {
     "main": [
       "me.smithingui.fabric.SmithingUIFabric"
@@ -23,7 +20,9 @@
   ],
   "depends": {
     "fabricloader": ">=0.16.9",
-    "minecraft": "~1.20.1",
-    "java": ">=17"
+    "minecraft": "~1.20.4",
+    "java": ">=17",
+    "architectury": ">=11.1.17",
+    "fabric-api": "*"
   }
 }

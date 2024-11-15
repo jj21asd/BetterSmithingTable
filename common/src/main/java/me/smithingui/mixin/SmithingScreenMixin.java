@@ -12,11 +12,15 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import org.joml.Quaternionf;
+import org.joml.Vector3f;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.*;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -51,7 +55,8 @@ public abstract class SmithingScreenMixin extends ForgingScreen<SmithingScreenHa
     @Inject(method = "drawBackground", at = @At(value = "INVOKE", shift = At.Shift.AFTER,
             target = "Lnet/minecraft/client/gui/screen/ingame/ForgingScreen;drawBackground(Lnet/minecraft/client/gui/GuiGraphics;FII)V"), cancellable = true)
     private void renderBg(GuiGraphics guiGraphics, float f, int i, int j, CallbackInfo ci) {
-        InventoryScreen.drawEntity(guiGraphics, x + 111, y + 67, 25, STAND_ROT, new Quaternionf(), display);
+        InventoryScreen.drawEntity(guiGraphics, x + 111, y + 67, 25, new Vector3f(),
+                STAND_ROT, new Quaternionf(), display);
         ci.cancel(); // Skip the rest of the function
     }
 

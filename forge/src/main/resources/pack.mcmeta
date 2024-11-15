@@ -1,7 +1,6 @@
 {
   "pack": {
     "description": "Better Smithing UI",
-    "forge:server_data_pack_format": 15,
-    "pack_format": 15
+    "pack_format": 22
   }
 }

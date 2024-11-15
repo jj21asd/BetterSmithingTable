@@ -3,11 +3,9 @@
   "package": "me.smithingui.mixin",
   "compatibilityLevel": "JAVA_17",
   "minVersion": "0.8",
-  "client": [
-    "SmithingScreenMixin"
-  ],
   "mixins": [
-    "SmithingScreenHandlerMixin"
+    "SmithingScreenHandlerMixin",
+    "SmithingScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1
