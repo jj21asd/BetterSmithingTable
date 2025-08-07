@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "id": "better_smithing_ui",
+  "id": "better_smithing_table",
   "version": "${version}",
-  "name": "Better Smithing UI",
-  "description": "Replaces the ugly vanilla smithing menu with an improved version",
+  "name": "BetterSmithingTable",
+  "description": "I don't like the new smithing table menu, so I made a better one.",
   "authors": [
-    "jj21"
+    "jjblock21"
   ],
   "contact": {
     "issues": "https://github.com/jj21asd/BetterSmithingUI/issues",
@@ -15,12 +15,11 @@
   "icon": "icon.png",
   "environment": "client",
   "entrypoints": {
-    "main": [
-      "me.smithingui.fabric.SmithingUIFabric"
-    ]
+    "main": ["me.bettersmithingtable.fabric.BetterSmithingTableFabric"],
+    "modmenu": ["me.bettersmithingtable.fabric.BetterSmithingTableFabric"]
   },
   "mixins": [
-    "better_smithing_ui.mixins.json"
+    "better_smithing_table.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=0.16.9",
@@ -28,7 +27,6 @@
       "1.20",
       "1.20.1"
     ],
-    "java": ">=17",
-    "architectury": ">=9.0.6"
+    "java": ">=17"
   }
 }

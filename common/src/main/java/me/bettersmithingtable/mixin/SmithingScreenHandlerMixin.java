@@ -1,4 +1,4 @@
-package me.smithingui.mixin;
+package me.bettersmithingtable.mixin;
 
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.recipe.SmithingRecipe;
@@ -27,21 +27,22 @@ public abstract class SmithingScreenHandlerMixin extends ForgingScreenHandler {
         super(type, syncId, playerInventory, context);
     }
 
-
+    /*
+     * Reposition slots to fit new texture
+     */
     @Inject(method = "createSlotManager", at = @At("HEAD"), cancellable = true)
     public void createSlotManager(CallbackInfoReturnable<ItemCombinationSlotManager> cir) {
-        // Move slots to fit gui
         ItemCombinationSlotManager man = ItemCombinationSlotManager.createBuilder()
-                .addIngredientSlot(0, 64, 35, (stack) -> {
-                    return this.recipes.stream().anyMatch((recipe) -> {
+                .addIngredientSlot(0, 64, 35, stack -> {
+                    return this.recipes.stream().anyMatch(recipe -> { // smithing template
                         return recipe.matchesTemplateIngredient(stack);
                     });
-                }).addIngredientSlot(1, 38, 45, (stack) -> { // Armor piece
-                    return this.recipes.stream().anyMatch((recipe) -> {
+                }).addIngredientSlot(1, 38, 45, stack -> { // armor piece
+                    return this.recipes.stream().anyMatch(recipe -> {
                         return recipe.matchesBaseIngredient(stack);
                     });
-                }).addIngredientSlot(2, 18, 25, (stack) -> { // Trim/Upgrade material
-                    return this.recipes.stream().anyMatch((recipe) -> {
+                }).addIngredientSlot(2, 18, 25, stack -> { // trim/upgrade material
+                    return this.recipes.stream().anyMatch(recipe -> {
                         return recipe.matchesAdditionIngredient(stack);
                     });
                 }).setResultSlot(3, 142, 35).build();
