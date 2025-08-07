@@ -9,7 +9,7 @@ version = "${version}"
 displayName = "BetterSmithingTable"
 authors = "jjblock21"
 description = "I don't like the new smithing table menu, so I made a better one."
-logoFile = "../../../../../common/src/main/resources/icon.png"
+logoFile = "icon.png"
 
 [[dependencies.better_smithing_table]]
 modId = "forge"
