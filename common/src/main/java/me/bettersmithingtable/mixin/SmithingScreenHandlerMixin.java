@@ -1,6 +1,7 @@
 package me.bettersmithingtable.mixin;
 
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.recipe.SmithingRecipe;
 import net.minecraft.screen.ForgingScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
@@ -20,7 +21,7 @@ import java.util.List;
 @Mixin(SmithingScreenHandler.class)
 public abstract class SmithingScreenHandlerMixin extends ForgingScreenHandler {
     @Shadow @Final
-    private List<SmithingRecipe> recipes;
+    private List<RecipeEntry<SmithingRecipe>> recipes;
 
     public SmithingScreenHandlerMixin(@Nullable ScreenHandlerType<?> type, int syncId,
                                       PlayerInventory playerInventory, ScreenHandlerContext context) {
@@ -35,15 +36,15 @@ public abstract class SmithingScreenHandlerMixin extends ForgingScreenHandler {
         ForgingSlotsManager man = ForgingSlotsManager.create()
                 .input(0, 64, 35, stack -> {
                     return this.recipes.stream().anyMatch(recipe -> {
-                        return recipe.testTemplate(stack); // smithing template
+                        return recipe.value().testTemplate(stack); // smithing template
                     });
                 }).input(1, 38, 45, stack -> {
                     return this.recipes.stream().anyMatch(recipe -> {
-                        return recipe.testBase(stack); // armor piece
+                        return recipe.value().testBase(stack); // armor piece
                     });
                 }).input(2, 18, 25, stack -> {
                     return this.recipes.stream().anyMatch(recipe -> {
-                        return recipe.testAddition(stack); // trim/upgrade material
+                        return recipe.value().testAddition(stack); // trim/upgrade material
                     });
                 }).output(3, 142, 35).build();
         cir.setReturnValue(man);
