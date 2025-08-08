@@ -25,9 +25,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(SmithingScreen.class)
 public abstract class SmithingScreenMixin extends ForgingScreen<SmithingScreenHandler> {
-    @Unique
-    private static final Quaternionf STAND_ROT = new Quaternionf()
-            .rotationXYZ(MathHelper.PI * 0.12f, 0, MathHelper.PI);
+    @Unique private static final Vector3f STAND_POS;
+    @Unique private static final Quaternionf STAND_ROT;
+
+    static {
+        STAND_POS = new Vector3f(.025f, 1f, 0f);
+        STAND_ROT = new Quaternionf().rotationXYZ(MathHelper.PI * .12f, 0, MathHelper.PI);
+    }
 
     @Unique
     private boolean bst$isPresentingItem;
@@ -87,9 +91,14 @@ public abstract class SmithingScreenMixin extends ForgingScreen<SmithingScreenHa
             armorStand.bodyYaw = 200;
         }
 
-        // skip rendering of dynamic slot icons
-        InventoryScreen.drawEntity(context, x + 111, y + 67, 25, new Vector3f(), STAND_ROT,
-                new Quaternionf(), armorStand);
+        /*
+         * Skip rendering dynamic slot icons
+         */
+
+        // draw armor stand with custom parameters
+        InventoryScreen.drawEntity(context, x + 93, y + 15, x + 128, y + 70, 25, STAND_POS,
+                STAND_ROT, new Quaternionf(), armorStand);
+
         ci.cancel();
     }
 
