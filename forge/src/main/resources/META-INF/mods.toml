@@ -1,6 +1,6 @@
 modLoader = "javafml"
 loaderVersion = "[49,)"
-issueTrackerURL = "https://github.com/jj21asd/BetterSmithingUI/issues"
+issueTrackerURL = "https://github.com/jj21asd/BetterSmithingTable/issues"
 license = "MIT"
 
 [[mods]]
@@ -9,7 +9,7 @@ version = "${version}"
 displayName = "BetterSmithingTable"
 authors = "jjblock21"
 description = "I don't like the new smithing table menu, so I made a better one."
-logoFile = "icon.png"
+#logoFile = "icon.png"
 
 [[dependencies.better_smithing_table]]
 modId = "forge"
@@ -21,6 +21,6 @@ side = "BOTH"
 [[dependencies.better_smithing_table]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.20.4,)"
+versionRange = "[1.20.3,1.21)"
 ordering = "NONE"
 side = "BOTH"

@@ -8,8 +8,8 @@
     "jjblock21"
   ],
   "contact": {
-    "issues": "https://github.com/jj21asd/BetterSmithingUI/issues",
-    "sources": "https://github.com/jj21asd/BetterSmithingUI"
+    "issues": "https://github.com/jj21asd/BetterSmithingTable/issues",
+    "sources": "https://github.com/jj21asd/BetterSmithingTable"
   },
   "license": "MIT",
   "icon": "icon.png",
@@ -22,11 +22,8 @@
     "better_smithing_table.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.16.9",
-    "minecraft": [
-      "1.20",
-      "1.20.1"
-    ],
+    "fabricloader": ">=0.17.2",
+    "minecraft": ">=1.20.3 <1.21",
     "java": ">=17"
   }
 }

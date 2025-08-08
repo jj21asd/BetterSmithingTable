@@ -3,9 +3,11 @@
   "package": "me.bettersmithingtable.mixin",
   "compatibilityLevel": "JAVA_17",
   "minVersion": "0.8",
-  "mixins": [
-    "SmithingScreenHandlerMixin",
+  "client": [
     "SmithingScreenMixin"
+  ],
+  "mixins": [
+    "SmithingScreenHandlerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

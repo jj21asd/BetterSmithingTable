@@ -1,36 +1,29 @@
 modLoader = "javafml"
 loaderVersion = "[2,)"
-issueTrackerURL = "https://github.com/jj21asd/BetterSmithingUI/issues"
+issueTrackerURL = "https://github.com/jj21asd/BetterSmithingTable/issues"
 license = "MIT"
 
 [[mods]]
-modId = "better_smithing_ui"
+modId = "better_smithing_table"
 version = "${version}"
-displayName = "Better Smithing UI"
-authors = "jj21"
-description = '''Replaces the ugly vanilla smithing menu with an improved version'''
-logoFile = "icon.png"
+displayName = "BetterSmithingTable"
+authors = "jjblock21"
+description = "I don't like the new smithing table menu, so I made a better one."
+#logoFile = "icon.png"
 
-[[dependencies.better_smithing_ui]]
+[[dependencies.better_smithing_table]]
 modId = "neoforge"
 type = "required"
 versionRange = "[20.4,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.better_smithing_ui]]
+[[dependencies.better_smithing_table]]
 modId = "minecraft"
 type = "required"
-versionRange = "[1.20.4,)"
+versionRange = "[1.20.3,1.21)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.better_smithing_ui]]
-modId = "architectury"
-type = "required"
-versionRange = "[11.1.17,)"
-ordering = "AFTER"
-side = "BOTH"
-
 [[mixins]]
-config = "better_smithing_ui.mixins.json"
+config = "better_smithing_table.mixins.json"

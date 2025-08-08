@@ -6,7 +6,7 @@ import net.minecraft.screen.ForgingScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.screen.SmithingScreenHandler;
-import net.minecraft.screen.slot.ItemCombinationSlotManager;
+import net.minecraft.screen.slot.ForgingSlotsManager;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -30,22 +30,22 @@ public abstract class SmithingScreenHandlerMixin extends ForgingScreenHandler {
     /*
      * Reposition slots to fit new texture
      */
-    @Inject(method = "createSlotManager", at = @At("HEAD"), cancellable = true)
-    public void createSlotManager(CallbackInfoReturnable<ItemCombinationSlotManager> cir) {
-        ItemCombinationSlotManager man = ItemCombinationSlotManager.createBuilder()
-                .addIngredientSlot(0, 64, 35, stack -> {
-                    return this.recipes.stream().anyMatch(recipe -> { // smithing template
-                        return recipe.matchesTemplateIngredient(stack);
-                    });
-                }).addIngredientSlot(1, 38, 45, stack -> { // armor piece
+    @Inject(method = "getForgingSlotsManager", at = @At("HEAD"), cancellable = true)
+    public void getForgingSlotsManager(CallbackInfoReturnable<ForgingSlotsManager> cir) {
+        ForgingSlotsManager man = ForgingSlotsManager.create()
+                .input(0, 64, 35, stack -> {
                     return this.recipes.stream().anyMatch(recipe -> {
-                        return recipe.matchesBaseIngredient(stack);
+                        return recipe.testTemplate(stack); // smithing template
                     });
-                }).addIngredientSlot(2, 18, 25, stack -> { // trim/upgrade material
+                }).input(1, 38, 45, stack -> {
                     return this.recipes.stream().anyMatch(recipe -> {
-                        return recipe.matchesAdditionIngredient(stack);
+                        return recipe.testBase(stack); // armor piece
                     });
-                }).setResultSlot(3, 142, 35).build();
+                }).input(2, 18, 25, stack -> {
+                    return this.recipes.stream().anyMatch(recipe -> {
+                        return recipe.testAddition(stack); // trim/upgrade material
+                    });
+                }).output(3, 142, 35).build();
         cir.setReturnValue(man);
     }
 }
