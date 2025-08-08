@@ -33,6 +33,9 @@ repositories {
 dependencies {
     modImplementation "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
 
+    // Fabric API. This is technically optional, but you probably want it anyway.
+    modImplementation "net.fabricmc.fabric-api:fabric-api:$rootProject.fabric_api_version"
+
     modImplementation "com.terraformersmc:modmenu:${rootProject.mod_menu_version}"
     modImplementation include("maven.modrinth:midnightlib:$rootProject.midnight_lib_version_fabric")
 
