@@ -9,7 +9,7 @@ version = "${version}"
 displayName = "BetterSmithingTable"
 authors = "jjblock21"
 description = "I don't like the new smithing table menu, so I made a better one."
-logoFile = "icon.png"
+#logoFile = "icon.png"
 
 [[dependencies.better_smithing_table]]
 modId = "forge"
@@ -21,6 +21,6 @@ side = "BOTH"
 [[dependencies.better_smithing_table]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.20,1.21)"
+versionRange = "[1.20,1.20.2)"
 ordering = "NONE"
 side = "BOTH"
