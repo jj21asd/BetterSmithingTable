@@ -30,10 +30,6 @@ subprojects {
         maven { url = "https://api.modrinth.com/maven" }
     }
 
-    loom {
-        silentMojangMappingsLicense()
-    }
-
     dependencies {
         minecraft "net.minecraft:minecraft:$rootProject.minecraft_version"
         mappings "net.fabricmc:yarn:$rootProject.yarn_mappings:v2"
