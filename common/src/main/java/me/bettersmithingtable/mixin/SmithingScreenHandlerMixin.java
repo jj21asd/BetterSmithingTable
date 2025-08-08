@@ -1,7 +1,6 @@
-package me.smithingui.mixin;
+package me.bettersmithingtable.mixin;
 
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.recipe.SmithingRecipe;
 import net.minecraft.screen.ForgingScreenHandler;
@@ -13,10 +12,10 @@ import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
 import java.util.List;
 
 @Mixin(SmithingScreenHandler.class)
@@ -29,36 +28,25 @@ public abstract class SmithingScreenHandlerMixin extends ForgingScreenHandler {
         super(type, syncId, playerInventory, context);
     }
 
+    /*
+     * Reposition slots to fit new texture
+     */
     @Inject(method = "getForgingSlotsManager", at = @At("HEAD"), cancellable = true)
-    public void createSlotManager(CallbackInfoReturnable<ForgingSlotsManager> cir) {
-        // Move slots to fit gui
+    public void getForgingSlotsManager(CallbackInfoReturnable<ForgingSlotsManager> cir) {
         ForgingSlotsManager man = ForgingSlotsManager.create()
-                .input(0, 64, 35, this::better_smithing_ui$testTemplate)
-                .input(1, 38, 45, this::better_smithing_ui$testArmorPiece)
-                .input(2, 18, 25, this::better_smithing_ui$testUpgradeMaterial)
-                .output(3, 142, 35).build();
-
+                .input(0, 64, 35, stack -> {
+                    return this.recipes.stream().anyMatch(recipe -> {
+                        return recipe.value().testTemplate(stack); // smithing template
+                    });
+                }).input(1, 38, 45, stack -> {
+                    return this.recipes.stream().anyMatch(recipe -> {
+                        return recipe.value().testBase(stack); // armor piece
+                    });
+                }).input(2, 18, 25, stack -> {
+                    return this.recipes.stream().anyMatch(recipe -> {
+                        return recipe.value().testAddition(stack); // trim/upgrade material
+                    });
+                }).output(3, 142, 35).build();
         cir.setReturnValue(man);
-    }
-
-    @Unique
-    private boolean better_smithing_ui$testTemplate(ItemStack stack) {
-        return this.recipes.stream().anyMatch((recipe) -> {
-            return recipe.value().testTemplate(stack);
-        });
-    }
-
-    @Unique
-    private boolean better_smithing_ui$testArmorPiece(ItemStack stack) {
-        return this.recipes.stream().anyMatch((recipe) -> {
-            return recipe.value().testBase(stack);
-        });
-    }
-
-    @Unique
-    private boolean better_smithing_ui$testUpgradeMaterial(ItemStack stack) {
-        return this.recipes.stream().anyMatch((recipe) -> {
-            return recipe.value().testAddition(stack);
-        });
     }
 }
