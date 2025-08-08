@@ -96,7 +96,7 @@ public abstract class SmithingScreenMixin extends ForgingScreen<SmithingScreenHa
          */
 
         // draw armor stand with custom parameters
-        InventoryScreen.drawEntity(context, x + 93, y + 15, x + 128, y + 70, 25, STAND_POS,
+        InventoryScreen.drawEntity(context, x + 93, y + 15, x + 129, y + 71, 25, STAND_POS,
                 STAND_ROT, new Quaternionf(), armorStand);
 
         ci.cancel();
