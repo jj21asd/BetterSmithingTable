@@ -15,8 +15,12 @@
   "icon": "icon.png",
   "environment": "client",
   "entrypoints": {
-    "main": ["me.bettersmithingtable.fabric.BetterSmithingTableFabric"],
-    "modmenu": ["me.bettersmithingtable.fabric.BetterSmithingTableFabric"]
+    "main": [
+      "me.bettersmithingtable.fabric.BetterSmithingTableFabric"
+    ],
+    "modmenu": [
+      "me.bettersmithingtable.fabric.ModMenuApiImpl"
+    ]
   },
   "mixins": [
     "better_smithing_table.mixins.json"
@@ -24,6 +28,7 @@
   "depends": {
     "fabricloader": ">=0.17.2",
     "minecraft": ">=1.21 <1.21.2",
+    "fabric-api": "*",
     "java": ">=21"
   }
 }
