@@ -16,7 +16,7 @@
   "environment": "client",
   "entrypoints": {
     "main": ["me.bettersmithingtable.fabric.BetterSmithingTableFabric"],
-    "modmenu": ["me.bettersmithingtable.fabric.BetterSmithingTableFabric"]
+    "modmenu": ["me.bettersmithingtable.fabric.ModMenuApiImpl"]
   },
   "mixins": [
     "better_smithing_table.mixins.json"
