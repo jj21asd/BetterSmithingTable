@@ -16,7 +16,7 @@
   "environment": "client",
   "entrypoints": {
     "main": ["me.bettersmithingtable.fabric.BetterSmithingTableFabric"],
-    "modmenu": ["me.bettersmithingtable.fabric.BetterSmithingTableFabric"]
+    "modmenu": ["me.bettersmithingtable.fabric.ModMenuApiImpl"]
   },
   "mixins": [
     "better_smithing_table.mixins.json"
@@ -24,6 +24,7 @@
   "depends": {
     "fabricloader": ">=0.17.2",
     "minecraft": ">=1.20.3 <1.20.5",
+    "fabric-api": "*",
     "java": ">=17"
   }
 }
