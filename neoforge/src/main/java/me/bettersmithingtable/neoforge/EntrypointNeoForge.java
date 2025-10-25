@@ -7,8 +7,8 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 
 @Mod(BetterSmithingTable.MOD_ID)
-public final class BetterSmithingTableNeoForge {
-    public BetterSmithingTableNeoForge() {
+public final class EntrypointNeoForge {
+    public EntrypointNeoForge() {
         BetterSmithingTable.init();
 
         // register config screen

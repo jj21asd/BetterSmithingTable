@@ -1,7 +1,7 @@
 package me.bettersmithingtable.mixin;
 
 import me.bettersmithingtable.BetterSmithingTable;
-import me.bettersmithingtable.Config;
+import me.bettersmithingtable.ConfigModel;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.ForgingScreen;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
@@ -44,35 +44,45 @@ public abstract class SmithingScreenMixin extends ForgingScreen<SmithingScreenHa
         super(handler, playerInventory, title, texture);
     }
 
-    @ModifyArg(method = "<init>", at = @At(value = "INVOKE",
-            target = "Lnet/minecraft/client/gui/screen/ingame/ForgingScreen;<init>(Lnet/minecraft/screen/ForgingScreenHandler;Lnet/minecraft/entity/player/PlayerInventory;Lnet/minecraft/text/Text;Lnet/minecraft/util/Identifier;)V"),
-            index = 3)
-    private static Identifier getTexture(Identifier old) {
+    @ModifyArg(
+        method = "<init>",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/client/gui/screen/ingame/ForgingScreen;<init>(Lnet/minecraft/screen/ForgingScreenHandler;Lnet/minecraft/entity/player/PlayerInventory;Lnet/minecraft/text/Text;Lnet/minecraft/util/Identifier;)V"
+        ),
+        index = 3
+    )
+    private static Identifier getTexture(Identifier texture) {
         return BetterSmithingTable.getMenuTexture();
     }
 
-    /*
-     * Leave title text at default position
-     */
-    @Redirect(method = "<init>", at = @At(value = "FIELD", opcode = Opcodes.PUTFIELD,
-            target = "Lnet/minecraft/client/gui/screen/ingame/SmithingScreen;titleX:I"))
+    // leave menu title in the default position
+    @Redirect(
+        method = "<init>",
+        at = @At(
+            value = "FIELD",
+            opcode = Opcodes.PUTFIELD,
+            target = "Lnet/minecraft/client/gui/screen/ingame/SmithingScreen;titleX:I"
+        )
+    )
     private void assignTitleX(SmithingScreen instance, int value) { }
 
-    @Redirect(method = "<init>", at = @At(value = "FIELD", opcode = Opcodes.PUTFIELD,
-            target = "Lnet/minecraft/client/gui/screen/ingame/SmithingScreen;titleY:I"))
+    @Redirect(
+        method = "<init>",
+        at = @At(
+            value = "FIELD",
+            opcode = Opcodes.PUTFIELD,
+            target = "Lnet/minecraft/client/gui/screen/ingame/SmithingScreen;titleY:I"
+        )
+    )
     private void assignTitleY(SmithingScreen instance, int value) { }
 
-    /*
-     * Hide invalid recipe arrow
-     */
+    // hide invalid recipe arrow
     @Inject(method = "hasInvalidRecipe", at = @At("HEAD"), cancellable = true)
     private void hasInvalidRecipe(CallbackInfoReturnable<Boolean> cir) {
         cir.setReturnValue(false);
     }
 
-    /*
-     * Customize rendering of menu elements
-     */
     @Inject(method = "equipArmorStand", at = @At("HEAD"))
     private void equipArmorStand(ItemStack stack, CallbackInfo ci) {
         if (armorStand != null) {
@@ -80,32 +90,36 @@ public abstract class SmithingScreenMixin extends ForgingScreen<SmithingScreenHa
         }
     }
 
-    @Inject(method = "drawBackground", at = @At(value = "INVOKE", shift = At.Shift.AFTER,
-            target = "Lnet/minecraft/client/gui/screen/ingame/ForgingScreen;drawBackground(Lnet/minecraft/client/gui/DrawContext;FII)V"), cancellable = true)
+    @Inject(
+        method = "drawBackground",
+        at = @At(
+            value = "INVOKE",
+            shift = At.Shift.AFTER,
+            target = "Lnet/minecraft/client/gui/screen/ingame/ForgingScreen;drawBackground(Lnet/minecraft/client/gui/DrawContext;FII)V"
+        ),
+        cancellable = true
+    )
     private void drawBackground(DrawContext context, float framesPerTick, int mouseX, int mouseY, CallbackInfo ci) {
-        // rotate armor stand while displaying item
         if (bst$isPresentingItem) {
             // convert to degrees per second
-            armorStand.bodyYaw -= Config.rotationSpeed * framesPerTick * .5f;
+            armorStand.bodyYaw -= ConfigModel.rotationSpeed * framesPerTick * .5f;
         } else {
             armorStand.bodyYaw = 200;
         }
 
-        /*
-         * Skip rendering dynamic slot icons
-         */
-
-        // draw armor stand with custom parameters
-        InventoryScreen.drawEntity(context, x + 93, y + 15, x + 129, y + 71, 25, STAND_POS,
-                STAND_ROT, new Quaternionf(), armorStand);
+        InventoryScreen.drawEntity(context, x + 93, y + 15, x + 129, y + 71, 25,
+            STAND_POS, STAND_ROT, new Quaternionf(), armorStand);
 
         ci.cancel();
     }
 
-    /*
-     * Hide slot tooltips
-     */
-    @Redirect(method = "render", at = @At(value = "INVOKE",
-            target = "Lnet/minecraft/client/gui/screen/ingame/SmithingScreen;renderSlotTooltip(Lnet/minecraft/client/gui/DrawContext;II)V"))
+    // hide slot tooltips
+    @Redirect(
+        method = "render",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/client/gui/screen/ingame/SmithingScreen;renderSlotTooltip(Lnet/minecraft/client/gui/DrawContext;II)V"
+        )
+    )
     private void renderSlotTooltip(SmithingScreen instance, DrawContext context, int mouseX, int mouseY) { }
 }

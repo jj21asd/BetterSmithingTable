@@ -12,11 +12,15 @@
     "sources": "https://github.com/jj21asd/BetterSmithingTable"
   },
   "license": "MIT",
-  "icon": "icon.png",
+  "icon": "assets/better_smithing_table/icon.png",
   "environment": "client",
   "entrypoints": {
-    "main": ["me.bettersmithingtable.fabric.BetterSmithingTableFabric"],
-    "modmenu": ["me.bettersmithingtable.fabric.ModMenuApiImpl"]
+    "main": [
+      "me.bettersmithingtable.fabric.EntrypointFabric"
+    ],
+    "modmenu": [
+      "me.bettersmithingtable.fabric.ModMenuImpl"
+    ]
   },
   "mixins": [
     "better_smithing_table.mixins.json"

@@ -2,7 +2,7 @@ package me.bettersmithingtable;
 
 import eu.midnightdust.lib.config.MidnightConfig;
 
-public class Config extends MidnightConfig {
+public class ConfigModel extends MidnightConfig {
     @Entry
     public static Skin skin = Skin.DEFAULT;
 
