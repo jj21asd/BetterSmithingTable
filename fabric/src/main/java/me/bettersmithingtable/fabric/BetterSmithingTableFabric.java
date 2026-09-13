@@ -5,7 +5,7 @@ import net.fabricmc.api.ModInitializer;
 
 import me.bettersmithingtable.BetterSmithingTable;
 
-public final class BetterSmithingTableFabric implements ModInitializer, ModMenuApi {
+public final class BetterSmithingTableFabric implements ModInitializer {
     @Override
     public void onInitialize() {
         BetterSmithingTable.init();

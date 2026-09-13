@@ -1,7 +1,7 @@
 package me.bettersmithingtable.mixin;
 
 import me.bettersmithingtable.BetterSmithingTable;
-import me.bettersmithingtable.Config;
+import me.bettersmithingtable.Configuration;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.ForgingScreen;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
@@ -81,7 +81,7 @@ public abstract class SmithingScreenMixin extends ForgingScreen<SmithingScreenHa
         // rotate armor stand while displaying item
         if (bst$isPresentingItem) {
             // convert to degrees per second
-            armorStand.bodyYaw -= Config.rotationSpeed * framesPerTick * .5f;
+            armorStand.bodyYaw -= Configuration.rotationSpeed * framesPerTick * .5f;
         } else {
             armorStand.bodyYaw = 200;
         }

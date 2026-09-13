@@ -33,7 +33,7 @@ configurations {
 dependencies {
     forge "net.minecraftforge:forge:$rootProject.forge_version"
 
-    modImplementation include("maven.modrinth:midnightlib:${rootProject.midnight_lib_version}-forge")
+    modImplementation include("maven.modrinth:midnightlib:${rootProject.midnight_lib_version_forge}-forge")
 
     common(project(path: ':common', configuration: 'namedElements')) { transitive false }
     shadowBundle project(path: ':common', configuration: 'transformProductionForge')
