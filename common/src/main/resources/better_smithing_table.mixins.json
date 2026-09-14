@@ -7,7 +7,8 @@
     "SmithingScreenMixin"
   ],
   "mixins": [
-    "SmithingScreenHandlerMixin"
+    "SmithingScreenHandlerMixin",
+    "compat.JeiVanillaPluginMixin"
   ],
   "injectors": {
     "defaultRequire": 1

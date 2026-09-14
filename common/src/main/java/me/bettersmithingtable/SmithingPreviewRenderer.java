@@ -54,7 +54,7 @@ public class SmithingPreviewRenderer {
     }
 
     public boolean handleClick(int x, int y, double mx, double my, int button) {
-        if (Configuration.dragToRotate && button == 0 && isMouseOver(x, y, mx, my)) {
+        if (BSTConfig.dragToRotate && button == 0 && isMouseOver(x, y, mx, my)) {
             dragging = true;
             return true;
         }
@@ -92,7 +92,7 @@ public class SmithingPreviewRenderer {
     }
 
     private void update() {
-        if (!Configuration.dragToRotate) {
+        if (!BSTConfig.dragToRotate) {
             yawVel = 0;
             yaw = STAND_YAW;
             return;
@@ -102,12 +102,12 @@ public class SmithingPreviewRenderer {
         if (dt > 0) {
             float target, lambda;
             if (dragging) {
-                target = -mouseDeltaX * Configuration.dragSensitivity / dt;
+                target = -mouseDeltaX * BSTConfig.dragSensitivity / dt;
                 mouseDeltaX = 0;
                 lambda = DRAG_LAMBDA;
             } else {
                 // Counter-clockwise looks better I think
-                target = presentingItem ? -Configuration.rotationSpeed * 18 : 0;
+                target = presentingItem ? -BSTConfig.rotationSpeed * 18 : 0;
                 lambda = COAST_LAMBDA;
             }
 

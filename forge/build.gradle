@@ -31,12 +31,18 @@ configurations {
 }
 
 dependencies {
-    forge "net.minecraftforge:forge:$rootProject.forge_version"
+    forge "net.minecraftforge:forge:$forge_version"
 
-    modImplementation include("maven.modrinth:midnightlib:${rootProject.midnight_lib_version_forge}-forge")
+    modImplementation include("maven.modrinth:midnightlib:${midnight_lib_version_forge}-forge")
+
+    modRuntimeOnly "mezz.jei:jei-${minecraft_version}-forge:${jei_version}"
 
     common(project(path: ':common', configuration: 'namedElements')) { transitive false }
     shadowBundle project(path: ':common', configuration: 'transformProductionForge')
+}
+
+repositories {
+    maven { url "https://maven.blamejared.com/" }
 }
 
 processResources {

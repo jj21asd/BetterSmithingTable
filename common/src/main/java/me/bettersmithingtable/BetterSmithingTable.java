@@ -7,11 +7,11 @@ public class BetterSmithingTable {
     public static final String MOD_ID = "better_smithing_table";
 
     public static void init() {
-        MidnightConfig.init(MOD_ID, Configuration.class);
+        MidnightConfig.init(MOD_ID, BSTConfig.class);
     }
 
     public static Identifier getMenuTexture() {
-        return new Identifier(MOD_ID, switch (Configuration.skin) {
+        return new Identifier(MOD_ID, switch (BSTConfig.skin) {
             case DEFAULT -> "menu.png";
             case VT_DARK -> "menu_vt_dark.png";
             case VT_TRANSPARENT -> "menu_vt_transparent.png";

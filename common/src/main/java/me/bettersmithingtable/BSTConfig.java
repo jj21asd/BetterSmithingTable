@@ -2,7 +2,7 @@ package me.bettersmithingtable;
 
 import eu.midnightdust.lib.config.MidnightConfig;
 
-public class Configuration extends MidnightConfig {
+public class BSTConfig extends MidnightConfig {
     @Entry public static Skin skin = Skin.DEFAULT;
     @Entry public static boolean dragToRotate = true;
     @Entry(min = 0.1, max = 10) public static float dragSensitivity = 3;

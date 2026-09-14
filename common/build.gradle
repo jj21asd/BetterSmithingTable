@@ -6,6 +6,11 @@ dependencies {
     // We depend on Fabric Loader here to use the Fabric @Environment annotations,
     // which get remapped to the correct annotations on each platform.
     // Do NOT use other classes from Fabric Loader.
-    modImplementation "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
-    compileOnly "maven.modrinth:midnightlib:${rootProject.midnight_lib_version_fabric}-fabric"
+    modImplementation "net.fabricmc:fabric-loader:$fabric_loader_version"
+    modCompileOnlyApi "mezz.jei:jei-${minecraft_version}-fabric-api:${jei_version}"
+    compileOnly "maven.modrinth:midnightlib:${midnight_lib_version_fabric}-fabric"
+}
+
+repositories {
+    maven { url "https://maven.blamejared.com/" }
 }
