@@ -27,9 +27,7 @@ public abstract class SmithingScreenHandlerMixin extends ForgingScreenHandler {
         super(type, syncId, playerInventory, context);
     }
 
-    /*
-     * Reposition slots to fit new texture
-     */
+    // Reposition slots to fit new texture
     @Inject(method = "getForgingSlotsManager", at = @At("HEAD"), cancellable = true)
     public void getForgingSlotsManager(CallbackInfoReturnable<ForgingSlotsManager> cir) {
         ForgingSlotsManager man = ForgingSlotsManager.create()

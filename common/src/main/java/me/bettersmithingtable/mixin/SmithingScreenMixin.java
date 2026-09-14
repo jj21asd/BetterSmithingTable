@@ -3,14 +3,18 @@ package me.bettersmithingtable.mixin;
 import me.bettersmithingtable.BetterSmithingTable;
 import me.bettersmithingtable.SmithingPreviewRenderer;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.screen.ingame.CyclingSlotIcon;
 import net.minecraft.client.gui.screen.ingame.ForgingScreen;
 import net.minecraft.client.gui.screen.ingame.SmithingScreen;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.SmithingScreenHandler;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import org.joml.Quaternionf;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -82,20 +86,14 @@ public abstract class SmithingScreenMixin extends ForgingScreen<SmithingScreenHa
         }
     }
 
-    // Render the display armor stand differently
-    @Inject(
+    // Hide dynamic slot icons
+    @Redirect(
         method = "drawBackground",
         at = @At(
             value = "INVOKE",
-            shift = At.Shift.AFTER,
-            target = "Lnet/minecraft/client/gui/screen/ingame/ForgingScreen;drawBackground(Lnet/minecraft/client/gui/DrawContext;FII)V"
-        ),
-        cancellable = true
+            target = "Lnet/minecraft/client/gui/screen/ingame/CyclingSlotIcon;render(Lnet/minecraft/screen/ScreenHandler;Lnet/minecraft/client/gui/DrawContext;FII)V")
     )
-    private void drawBackground(DrawContext context, float delta, int mouseX, int mouseY, CallbackInfo ci) {
-        bst$previewRenderer.draw(context, x, y, armorStand);
-        ci.cancel();
-    }
+    private void renderSlotIcons(CyclingSlotIcon instance, ScreenHandler screenHandler, DrawContext context, float delta, int x, int y) {}
 
     // Hide slot tooltips
     @Redirect(
@@ -105,8 +103,18 @@ public abstract class SmithingScreenMixin extends ForgingScreen<SmithingScreenHa
             target = "Lnet/minecraft/client/gui/screen/ingame/SmithingScreen;renderSlotTooltip(Lnet/minecraft/client/gui/DrawContext;II)V"
         )
     )
-    private void renderSlotTooltip(SmithingScreen instance, DrawContext context, int mouseX, int mouseY) {
-        // We don't want tooltips, the other menus don't need them either
+    private void renderSlotTooltip(SmithingScreen instance, DrawContext context, int mouseX, int mouseY) {}
+
+    // Render the display armor stand differently
+    @Redirect(
+        method = "drawBackground",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/client/gui/screen/ingame/InventoryScreen;drawEntity(Lnet/minecraft/client/gui/DrawContext;IIILorg/joml/Quaternionf;Lorg/joml/Quaternionf;Lnet/minecraft/entity/LivingEntity;)V"
+        )
+    )
+    private void drawBackground(DrawContext context, int posX, int posY, int size, Quaternionf q1, Quaternionf q2, LivingEntity entity) {
+        bst$previewRenderer.draw(context, x, y, armorStand);
     }
 
     // Intercept mouse events
