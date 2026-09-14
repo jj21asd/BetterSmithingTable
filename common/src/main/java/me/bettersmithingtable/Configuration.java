@@ -3,11 +3,10 @@ package me.bettersmithingtable;
 import eu.midnightdust.lib.config.MidnightConfig;
 
 public class Configuration extends MidnightConfig {
-    @Entry
-    public static Skin skin = Skin.DEFAULT;
-
-    @Entry(min = 0, max = 36, isSlider = true)
-    public static int rotationSpeed = 0;
+    @Entry public static Skin skin = Skin.DEFAULT;
+    @Entry public static boolean dragToRotate = true;
+    @Entry(min = 0.1, max = 10) public static float dragSensitivity = 3;
+    @Entry(min = -10, max = 10) public static float rotationSpeed = 0;
 
     public enum Skin {
         DEFAULT,

@@ -1,8 +1,10 @@
 {
-  "better_smithing_table.midnightconfig.title": "BetterSmithingTable Config",
-  "better_smithing_table.midnightconfig.skin": "GUI Skin",
+  "better_smithing_table.midnightconfig.title": "Better Smithing Table configuration",
+  "better_smithing_table.midnightconfig.skin": "Menu texture",
   "better_smithing_table.midnightconfig.enum.Skin.DEFAULT": "Default",
   "better_smithing_table.midnightconfig.enum.Skin.VT_DARK": "Dark (VanillaTweaks)",
   "better_smithing_table.midnightconfig.enum.Skin.VT_TRANSPARENT": "Transparent (VanillaTweaks)",
-  "better_smithing_table.midnightconfig.rotationSpeed": "Rotation Speed"
+  "better_smithing_table.midnightconfig.dragToRotate": "Rotate armor stand by dragging",
+  "better_smithing_table.midnightconfig.dragSensitivity": "Drag sensitivity",
+  "better_smithing_table.midnightconfig.rotationSpeed": "Auto-rotation speed"
 }
