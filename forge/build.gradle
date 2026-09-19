@@ -1,0 +1,54 @@
+plugins {
+    id 'com.gradleup.shadow'
+    id 'common.process-resources'
+}
+
+loom {
+    forge {
+        mixinConfig "${mod_id}.mixins.json"
+    }
+}
+
+architectury {
+    platformSetupLoomIde()
+    forge()
+}
+
+configurations {
+    common {
+        canBeResolved = true
+        canBeConsumed = false
+    }
+
+    compileClasspath.extendsFrom common
+    runtimeClasspath.extendsFrom common
+    developmentForge.extendsFrom common
+
+    shadowBundle {
+        canBeResolved = true
+        canBeConsumed = false
+    }
+}
+
+dependencies {
+    forge("net.minecraftforge:forge:$forge_version")
+
+    modImplementation(include("eu.midnightdust:midnightlib:$midnight_version_forge"))
+    modImplementation(include("me.fallenbreath:conditional-mixin-forge:$conditional_mixin_version"))
+
+    if (load_testing_mods.toBoolean()) {
+        modRuntimeOnly("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
+    }
+
+    common(project(path: ':common', configuration: 'namedElements')) { transitive = false }
+    shadowBundle(project(path: ':common', configuration: 'transformProductionForge'))
+}
+
+shadowJar {
+    configurations = [project.configurations.shadowBundle]
+    archiveClassifier = 'dev-shadow'
+}
+
+remapJar {
+    inputFile.set shadowJar.archiveFile
+}

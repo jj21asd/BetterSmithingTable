@@ -1,0 +1,80 @@
+plugins {
+    id 'dev.architectury.loom' version '1.17-SNAPSHOT' apply false
+    id 'architectury-plugin' version '3.5-SNAPSHOT'
+    id 'com.gradleup.shadow' version '9.4.3' apply false
+}
+
+architectury {
+    minecraft = minecraft_version
+}
+
+allprojects {
+    group = maven_group
+    version = "${version}-${minecraft_version}"
+}
+
+subprojects {
+    apply plugin: 'dev.architectury.loom'
+    apply plugin: 'architectury-plugin'
+    // apply plugin: 'maven-publish'
+
+    base {
+        archivesName = "${mod_id}-${project.name}"
+    }
+
+    repositories {
+        maven {
+            name = "Terraformers"
+            url = "https://maven.terraformersmc.com/"
+        }
+        maven {
+            name = "MidnightDust"
+            url = "https://maven.midnightdust.eu/releases"
+        }
+        maven {
+            name = "FallenBreath"
+            url = "https://maven.fallenbreath.me/releases"
+        }
+        maven {
+            name = "Jared's Maven"
+            url = "https://maven.blamejared.com/"
+        }
+    }
+
+    loom {
+        silentMojangMappingsLicense()
+    }
+
+    dependencies {
+        minecraft "net.minecraft:minecraft:$minecraft_version"
+        mappings loom.officialMojangMappings()
+    }
+
+    java {
+        withSourcesJar()
+        sourceCompatibility = JavaLanguageVersion.of(java_version)
+        targetCompatibility = JavaLanguageVersion.of(java_version)
+    }
+
+    tasks.withType(JavaCompile).configureEach {
+        it.options.release = Integer.valueOf(java_version)
+    }
+
+    // configure Maven publishing
+    /*publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                artifactId = base.archivesName.get()
+                from components.java
+            }
+        }
+
+        // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
+        repositories {
+            // Add repositories to publish to here.
+            // Notice: This block does NOT have the same function as the block in the top level.
+            // The repositories here will be used for publishing your artifact, not for
+            // retrieving dependencies.
+        }
+    }*/
+}

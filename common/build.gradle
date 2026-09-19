@@ -1,0 +1,18 @@
+plugins {
+    id 'common.process-resources'
+}
+
+architectury {
+    common platforms.split(',')
+}
+
+dependencies {
+    // make fabric loader @Environment annotations available
+    modImplementation("net.fabricmc:fabric-loader:$fabric_loader_version")
+
+    // make classes available at compile time
+    // loader specific version is bundled in inside fabric/forge subprojects
+    modCompileOnly("eu.midnightdust:midnightlib:$midnight_version_fabric")
+    modCompileOnly("me.fallenbreath:conditional-mixin-common:$conditional_mixin_version")
+    modCompileOnlyApi("mezz.jei:jei-${minecraft_version}-fabric-api:${jei_version}")
+}

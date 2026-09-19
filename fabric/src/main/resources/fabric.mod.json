@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "${mod_id}",
+  "version": "${version}",
+  "name": "${mod_name}",
+  "description": "${description}",
+  "authors": ["${author}"],
+  "contact": {
+    "sources": "${repository_url}",
+    "issues": "${issue_tracker_url}"
+  },
+  "license": "${license}",
+  "icon": "icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "main": ["dev.jjblock21.bst.fabric.BstMainFabric"],
+    "modmenu": ["dev.jjblock21.bst.fabric.BstModMenuImpl"]
+  },
+  "mixins": [
+    "${mod_id}.mixins.json"
+  ],
+  "depends": {
+    "java": ">=${java_version}",
+    "minecraft": "${minecraft_version_range_fabric}",
+    "fabricloader": "${fabric_loader_version_range}"
+  }
+}

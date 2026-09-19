@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "package": "dev.jjblock21.bst.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "minVersion": "0.8",
+  "plugin": "dev.jjblock21.bst.BstMixinConfigPlugin",
+  "client": [
+    "MixinSmithingMenu",
+    "MixinSmithingScreen",
+    "compat.MixinJeiVanillaPlugin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

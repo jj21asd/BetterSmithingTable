@@ -1,0 +1,7 @@
+{
+  "${mod_id}.midnightconfig.title": "${mod_name} Config",
+  "${mod_id}.midnightconfig.dragToRotate": "Drag To Rotate Armor Stand",
+  "${mod_id}.midnightconfig.dragSensitivity": "Drag Sensitivity",
+  "${mod_id}.midnightconfig.rotationSpeed": "Display Rotation Speed",
+  "${mod_id}.midnightconfig.armlessArmorStand": "Armless Armor Stand"
+}

@@ -1,0 +1,49 @@
+def allowedProps = [
+        'version',
+        'java_version',
+        'mod_name',
+        'mod_id',
+        'author',
+        'description',
+        'repository_url',
+        'issue_tracker_url',
+        'license',
+        'minecraft_version',
+        'minecraft_version_range_fabric',
+        'minecraft_version_range_forge',
+        'fabric_loader_version',
+        'fabric_loader_version_range',
+        'forge_version',
+        'forge_version_range',
+        'forge_loader_version_range'
+]
+
+static def escapeLiteral(String value) {
+    return value.replace('\\', '\\\\')
+            .replace('"', '\\"')
+            .replace('\n', '\\n')
+            .replace('\r', '\\r')
+            .replace('\t', '\\t')
+}
+
+def props = allowedProps
+        .collectEntries { [(it): project.findProperty(it)] }
+        .findAll { k, v -> v != null }
+
+def escapedProps = props.collectEntries { key, value ->
+    [(key): value instanceof String ? escapeLiteral(value) : value]
+}
+
+tasks.named('processResources').configure {
+    inputs.properties escapedProps
+    filesMatching([
+            'fabric.mod.json',
+            'META-INF/mods.toml',
+            'pack.mcmeta',
+            '*.mixins.json',
+            "assets/${mod_id}/lang/*.json".toString()
+    ]) {
+        logger.lifecycle("Expanded properties for ${it.path}")
+        expand escapedProps
+    }
+}
