@@ -15,6 +15,7 @@ import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.SmithingMenu;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
 import org.joml.Quaternionf;
 import org.spongepowered.asm.mixin.Mixin;
@@ -99,6 +100,9 @@ public abstract class MixinSmithingScreen extends ItemCombinerScreen<SmithingMen
 
     @Inject(method = "updateArmorStandPreview", at = @At("HEAD"))
     private void updateArmorStandPreview(ItemStack item, CallbackInfo ci) {
+        if (BstConfig.armlessArmorStand && !(item.getItem() instanceof ArmorItem)) {
+            item = ItemStack.EMPTY;
+        }
         bst$preview.setDisplayItem(item);
     }
 
