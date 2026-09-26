@@ -29,7 +29,6 @@ dependencies {
 
     modImplementation("com.terraformersmc:modmenu:$mod_menu_version")
     modImplementation(include("eu.midnightdust:midnightlib:${midnight_version_fabric}"))
-    modImplementation(include("me.fallenbreath:conditional-mixin-fabric:$conditional_mixin_version"))
 
     if (load_testing_mods.toBoolean()) {
         modLocalRuntime("net.fabricmc.fabric-api:fabric-api:$fabric_api_version")

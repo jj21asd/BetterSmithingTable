@@ -1,7 +1,6 @@
 package dev.jjblock21.bst.mixin.compat;
 
-import me.fallenbreath.conditionalmixin.api.annotation.Condition;
-import me.fallenbreath.conditionalmixin.api.annotation.Restriction;
+import dev.jjblock21.bst.RequiresMod;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.registration.IGuiHandlerRegistration;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -11,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 // fix https://github.com/jj21asd/BetterSmithingTable/issues/13
-@Restriction(require = @Condition("jei"))
+@RequiresMod("jei")
 @Mixin(targets = "mezz.jei.library.plugins.vanilla.VanillaPlugin")
 public class MixinJeiVanillaPlugin {
     @Redirect(

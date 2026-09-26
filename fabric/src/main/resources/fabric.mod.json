@@ -14,7 +14,7 @@
   "environment": "client",
   "entrypoints": {
     "main": ["dev.jjblock21.bst.fabric.BstMainFabric"],
-    "modmenu": ["dev.jjblock21.bst.fabric.BstModMenuImpl"]
+    "modmenu": ["dev.jjblock21.bst.fabric.ModMenuApiImpl"]
   },
   "mixins": [
     "${mod_id}.mixins.json"
