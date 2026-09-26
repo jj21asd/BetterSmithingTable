@@ -5,7 +5,7 @@ import com.terraformersmc.modmenu.api.ModMenuApi;
 import dev.jjblock21.bst.BstMain;
 import eu.midnightdust.lib.config.MidnightConfig;
 
-public class BstModMenuImpl implements ModMenuApi {
+public class ModMenuApiImpl implements ModMenuApi {
     @Override
     public ConfigScreenFactory<?> getModConfigScreenFactory() {
         return parent -> MidnightConfig.getScreen(parent, BstMain.MOD_ID);
