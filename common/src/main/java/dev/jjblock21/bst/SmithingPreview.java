@@ -92,9 +92,10 @@ public class SmithingPreview {
 
     public void render(GuiGraphics gfx, int menuX, int menuY, ArmorStand armorStand) {
         float dt = measureDeltaTime();
-
         if (armorStand != null) {
-            updateArmorStandYaw(dt);
+            if (dt > 0) {
+                updateArmorStandYaw(dt);
+            }
 
             armorStand.yBodyRot = yRot;
             armorStand.yBodyRotO = yRot;
