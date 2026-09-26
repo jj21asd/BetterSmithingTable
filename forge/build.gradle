@@ -37,7 +37,7 @@ dependencies {
     modImplementation(include("me.fallenbreath:conditional-mixin-forge:$conditional_mixin_version"))
 
     if (load_testing_mods.toBoolean()) {
-        modRuntimeOnly("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
+        modLocalRuntime("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
     }
 
     common(project(path: ':common', configuration: 'namedElements')) { transitive = false }
