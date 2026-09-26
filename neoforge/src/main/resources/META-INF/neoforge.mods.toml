@@ -1,5 +1,5 @@
 modLoader = "javafml"
-loaderVersion = "${forge_loader_version_range}"
+loaderVersion = "${neoforge_loader_version_range}"
 issueTrackerURL = "${issue_tracker_url}"
 license = "${license}"
 clientSideOnly = true
@@ -9,20 +9,23 @@ modId = "${mod_id}"
 version = "${version}"
 displayName = "${mod_name}"
 displayURL = "${repository_url}"
-logoFile="icon.png"
+logoFile = "icon.png"
 authors = "${author}"
 description = '''${description}'''
 
 [[dependencies.${mod_id}]]
-modId = "forge"
-mandatory = true
-versionRange = "${forge_version_range}"
+modId = "neoforge"
+type = "required"
+versionRange = "${neoforge_version_range}"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.${mod_id}]]
 modId = "minecraft"
-mandatory = true
-versionRange = "${minecraft_version_range_forge}"
+type = "required"
+versionRange = "${minecraft_version_range_neoforge}"
 ordering = "NONE"
 side = "BOTH"
+
+[[mixins]]
+config = "${mod_id}.mixins.json"

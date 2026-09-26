@@ -1,6 +1,6 @@
-package dev.jjblock21.bst.forge;
+package dev.jjblock21.bst.neoforge;
 
-import net.minecraftforge.fml.loading.LoadingModList;
+import net.neoforged.fml.loading.LoadingModList;
 
 public class PlatformImpl {
     public static boolean isModLoaded(String id) {

@@ -3,15 +3,9 @@ plugins {
     id 'common.process-resources'
 }
 
-loom {
-    forge {
-        mixinConfig "${mod_id}.mixins.json"
-    }
-}
-
 architectury {
     platformSetupLoomIde()
-    forge()
+    neoForge()
 }
 
 configurations {
@@ -22,7 +16,7 @@ configurations {
 
     compileClasspath.extendsFrom common
     runtimeClasspath.extendsFrom common
-    developmentForge.extendsFrom common
+    developmentNeoForge.extendsFrom common
 
     shadowBundle {
         canBeResolved = true
@@ -30,17 +24,24 @@ configurations {
     }
 }
 
-dependencies {
-    forge("net.minecraftforge:forge:$forge_version")
+repositories {
+    maven {
+        name = 'NeoForged'
+        url = 'https://maven.neoforged.net/releases'
+    }
+}
 
-    modImplementation(include("eu.midnightdust:midnightlib:$midnight_version_forge"))
+dependencies {
+    neoForge("net.neoforged:neoforge:$neoforge_version")
+
+    modImplementation(include("eu.midnightdust:midnightlib:$midnight_version_neoforge"))
 
     if (load_testing_mods.toBoolean()) {
-        modLocalRuntime("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
+        modLocalRuntime("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
     }
 
     common(project(path: ':common', configuration: 'namedElements')) { transitive = false }
-    shadowBundle(project(path: ':common', configuration: 'transformProductionForge'))
+    shadowBundle(project(path: ':common', configuration: 'transformProductionNeoForge'))
 }
 
 shadowJar {

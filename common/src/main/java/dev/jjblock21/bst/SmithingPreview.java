@@ -6,6 +6,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.item.ItemStack;
 import org.joml.Quaternionf;
+import org.joml.Vector3f;
 
 public class SmithingPreview {
     private boolean displayingItem = false;
@@ -104,6 +105,7 @@ public class SmithingPreview {
                 menuX + STAND_POS_X,
                 menuY + STAND_POS_Y,
                 STAND_SIZE,
+                new Vector3f(),
                 STAND_ROT,
                 new Quaternionf(),
                 armorStand

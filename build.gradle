@@ -31,10 +31,6 @@ subprojects {
             url = "https://maven.midnightdust.eu/releases"
         }
         maven {
-            name = "FallenBreath"
-            url = "https://maven.fallenbreath.me/releases"
-        }
-        maven {
             name = "Jared's Maven"
             url = "https://maven.blamejared.com/"
         }

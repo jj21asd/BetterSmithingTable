@@ -18,6 +18,7 @@ import net.minecraft.world.inventory.SmithingMenu;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
 import org.joml.Quaternionf;
+import org.joml.Vector3f;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -60,7 +61,7 @@ public abstract class MixinSmithingScreen extends ItemCombinerScreen<SmithingMen
         index = 3
     )
     private static ResourceLocation getSmithingLocation(ResourceLocation old) {
-        return new ResourceLocation(BstMain.MOD_ID, "menu.png");
+        return ResourceLocation.fromNamespaceAndPath(BstMain.MOD_ID, "menu.png");
     }
 
     // prevent recipe error indicator from being drawn over the non-existent arrow
@@ -127,11 +128,11 @@ public abstract class MixinSmithingScreen extends ItemCombinerScreen<SmithingMen
         method = "renderBg",
         at = @At(
             value = "INVOKE",
-            target = "Lnet/minecraft/client/gui/screens/inventory/InventoryScreen;renderEntityInInventory(Lnet/minecraft/client/gui/GuiGraphics;IIILorg/joml/Quaternionf;Lorg/joml/Quaternionf;Lnet/minecraft/world/entity/LivingEntity;)V"
+            target = "Lnet/minecraft/client/gui/screens/inventory/InventoryScreen;renderEntityInInventory(Lnet/minecraft/client/gui/GuiGraphics;FFFLorg/joml/Vector3f;Lorg/joml/Quaternionf;Lorg/joml/Quaternionf;Lnet/minecraft/world/entity/LivingEntity;)V"
         )
     )
-    private void renderEntityInInventory(GuiGraphics gfx, int i, int j, int k, Quaternionf q1,
-                                         Quaternionf q2, LivingEntity arg2) {
+    private void renderEntityInInventory(GuiGraphics gfx, float f, float g, float h, Vector3f v, Quaternionf q1,
+                                         Quaternionf q2, LivingEntity entity) {
         bst$preview.render(gfx, leftPos, topPos, armorStandPreview);
     }
 
