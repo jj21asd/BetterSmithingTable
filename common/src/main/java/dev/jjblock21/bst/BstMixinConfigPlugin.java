@@ -39,36 +39,29 @@ public class BstMixinConfigPlugin implements IMixinConfigPlugin {
 
     // these have to be declared for Forge where IMixinConfigPlugin doesn't have
     // default implementations for them
-
     @Override
-    @SuppressWarnings("RedundantMethodOverride")
     public void onLoad(String mixinPackage) {
     }
 
     @Override
-    @SuppressWarnings("RedundantMethodOverride")
     public String getRefMapperConfig() {
         return null;
     }
 
     @Override
-    @SuppressWarnings("RedundantMethodOverride")
     public void acceptTargets(Set<String> myTargets, Set<String> otherTargets) {
     }
 
     @Override
-    @SuppressWarnings("RedundantMethodOverride")
     public List<String> getMixins() {
         return null;
     }
 
     @Override
-    @SuppressWarnings("RedundantMethodOverride")
     public void preApply(String targetClassName, ClassNode targetClass, String mixinClassName, IMixinInfo mixinInfo) {
     }
 
     @Override
-    @SuppressWarnings("RedundantMethodOverride")
     public void postApply(String targetClassName, ClassNode targetClass, String mixinClassName, IMixinInfo mixinInfo) {
     }
 }
