@@ -14,5 +14,5 @@ dependencies {
     // loader specific version is bundled in inside fabric/forge subprojects
     modCompileOnly("eu.midnightdust:midnightlib:$midnight_version_fabric")
     modCompileOnly("me.fallenbreath:conditional-mixin-common:$conditional_mixin_version")
-    modCompileOnlyApi("mezz.jei:jei-${minecraft_version}-fabric-api:${jei_version}")
+    modCompileOnlyApi("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
 }
