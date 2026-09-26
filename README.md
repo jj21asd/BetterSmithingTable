@@ -7,4 +7,5 @@ The binaries are available on [Modrinth](https://modrinth.com/mod/bettersmithing
 This branch (`main`) only contains the README.
 The source code for each version of Minecraft lives on its own branch:
 - `1.20`: Source code for Minecraft 1.20 and 1.20.1.
+- `1.21`: Source code for Minecraft 1.21 and 1.21.1.
 - `legacy/...`: The old branches from the previous messy version of this repository.
