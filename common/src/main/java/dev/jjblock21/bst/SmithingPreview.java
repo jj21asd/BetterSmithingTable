@@ -119,7 +119,7 @@ public class SmithingPreview {
 
     public boolean mouseClicked(@NonNull MouseButtonEvent event, int menuX, int menuY) {
         if (BstConfig.dragToRotate) {
-            if (event.button() == 0 && isMouseOver(menuX, menuY, event.x(), event.y())) {
+            if (event.button() == 1 && isMouseOver(menuX, menuY, event.x(), event.y())) {
                 dragging = true;
                 yRotVelocity = 0;
                 mouseDeltaXAccum = 0;
@@ -138,7 +138,7 @@ public class SmithingPreview {
     }
 
     public boolean mouseReleased(@NonNull MouseButtonEvent event) {
-        if (dragging && event.button() == 0) {
+        if (dragging && event.button() == 1) {
             dragging = false;
             return true;
         }
