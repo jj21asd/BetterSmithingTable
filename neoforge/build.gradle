@@ -34,14 +34,14 @@ repositories {
 dependencies {
     neoForge("net.neoforged:neoforge:$neoforge_version")
 
-    modImplementation(include("eu.midnightdust:midnightlib:$midnight_version_neoforge"))
+    implementation(include("eu.midnightdust:midnightlib:$midnight_version_neoforge"))
 
     if (load_testing_mods.toBoolean()) {
-        modLocalRuntime("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
+        localRuntime("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
     }
 
-    common(project(path: ':common', configuration: 'namedElements')) { transitive = false }
-    shadowBundle(project(path: ':common', configuration: 'transformProductionNeoForge'))
+    common(project(path: ':common')) { transitive = false }
+    shadowBundle project(path: ':common', configuration: 'transformProductionNeoForge')
 }
 
 shadowJar {
@@ -49,6 +49,8 @@ shadowJar {
     archiveClassifier = 'dev-shadow'
 }
 
-remapJar {
-    inputFile.set shadowJar.archiveFile
+jar {
+    dependsOn shadowJar
+    from { zipTree(shadowJar.archiveFile) }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }

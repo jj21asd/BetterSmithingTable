@@ -25,17 +25,17 @@ configurations {
 }
 
 dependencies {
-    modImplementation("net.fabricmc:fabric-loader:$fabric_loader_version")
+    implementation("net.fabricmc:fabric-loader:$fabric_loader_version")
 
-    modImplementation("com.terraformersmc:modmenu:$mod_menu_version")
-    modImplementation(include("eu.midnightdust:midnightlib:${midnight_version_fabric}"))
+    implementation("com.terraformersmc:modmenu:$mod_menu_version")
+    implementation(include("eu.midnightdust:midnightlib:${midnight_version_fabric}"))
 
     if (load_testing_mods.toBoolean()) {
-        modLocalRuntime("net.fabricmc.fabric-api:fabric-api:$fabric_api_version")
-        modLocalRuntime("mezz.jei:jei-${minecraft_version}-fabric:${jei_version}")
+        localRuntime("net.fabricmc.fabric-api:fabric-api:$fabric_api_version")
+        localRuntime("mezz.jei:jei-${minecraft_version}-fabric:${jei_version}")
     }
 
-    common(project(path: ':common', configuration: 'namedElements')) { transitive = false }
+    common(project(path: ':common')) { transitive = false }
     shadowBundle(project(path: ':common', configuration: 'transformProductionFabric'))
 }
 
@@ -44,6 +44,8 @@ shadowJar {
     archiveClassifier = 'dev-shadow'
 }
 
-remapJar {
-    inputFile.set shadowJar.archiveFile
+jar {
+    dependsOn shadowJar
+    from { zipTree(shadowJar.archiveFile) }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }

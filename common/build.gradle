@@ -8,19 +8,10 @@ architectury {
 
 dependencies {
     // make fabric loader @Environment annotations available
-    modImplementation("net.fabricmc:fabric-loader:$fabric_loader_version")
+    implementation("net.fabricmc:fabric-loader:$fabric_loader_version")
 
     // make classes available at compile time
     // loader specific version is bundled in inside fabric/forge subprojects
-    modCompileOnly("eu.midnightdust:midnightlib:$midnight_version_fabric")
-    modCompileOnlyApi("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
-}
-
-// force a sponge-mixin version before "at" on @Redirect was changed to an array
-// the old MixinExtras version (0.3.5) bundled with NeoForge 21.0.167 doesn't support it
-// this took me 3h to figure out :/
-configurations.configureEach {
-    resolutionStrategy {
-        force "net.fabricmc:sponge-mixin:0.17.3+mixin.0.8.7"
-    }
+    compileOnly("eu.midnightdust:midnightlib:$midnight_version_fabric")
+    compileOnlyApi("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
 }

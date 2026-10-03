@@ -1,12 +1,13 @@
 package dev.jjblock21.bst;
 
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.inventory.InventoryScreen;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.client.renderer.entity.state.ArmorStandRenderState;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.item.ItemStack;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
+import org.jspecify.annotations.NonNull;
 
 public class SmithingPreview {
     private boolean displayingItem = false;
@@ -17,10 +18,9 @@ public class SmithingPreview {
     private long lastFrame = -1;
 
     // transform properties
-    public static final int STAND_POS_X = 111;
-    public static final int STAND_POS_Y = 67;
-    public static final int STAND_SIZE = 25;
+    public static final float STAND_SIZE = 25;
     public static final float STAND_YAW = 200;
+    public static final Vector3f STAND_POS;
     public static final Quaternionf STAND_ROT;
 
     // dimensions of the rectangle the stand occupies
@@ -34,16 +34,13 @@ public class SmithingPreview {
     public static final float COAST_LAMBDA = 8;
 
     static {
-        STAND_ROT = new Quaternionf()
-            .rotationXYZ(Mth.PI * 0.12f, 0, Mth.PI);
+        STAND_POS = new Vector3f(0, 0.96f, 0);
+        STAND_ROT = new Quaternionf().rotationXYZ(Mth.PI * 0.12f, 0, Mth.PI);
     }
 
-    public static void initArmorStand(ArmorStand armorStand) {
-        armorStand.yBodyRot = STAND_YAW;
-        armorStand.yBodyRotO = STAND_YAW;
-        if (BstConfig.armlessArmorStand) {
-            armorStand.setShowArms(false);
-        }
+    public static void initArmorStand(ArmorStandRenderState armorStand) {
+        armorStand.bodyRot = STAND_YAW;
+        armorStand.showArms = !BstConfig.armlessArmorStand;
     }
 
     public void setDisplayItem(ItemStack itemStack) {
@@ -91,24 +88,24 @@ public class SmithingPreview {
         yRot = Mth.wrapDegrees(yRot);
     }
 
-    public void render(GuiGraphics gfx, int menuX, int menuY, ArmorStand armorStand) {
+    public void extract(GuiGraphicsExtractor graphics, int menuX, int menuY, ArmorStandRenderState armorStand) {
         float dt = measureDeltaTime();
         if (armorStand != null) {
             if (dt > 0) {
                 updateArmorStandYaw(dt);
             }
 
-            armorStand.yBodyRot = yRot;
-            armorStand.yBodyRotO = yRot;
-            InventoryScreen.renderEntityInInventory(
-                gfx,
-                menuX + STAND_POS_X,
-                menuY + STAND_POS_Y,
+            armorStand.bodyRot = yRot;
+            graphics.entity(
+                armorStand,
                 STAND_SIZE,
-                new Vector3f(),
+                STAND_POS,
                 STAND_ROT,
-                new Quaternionf(),
-                armorStand
+                null,
+                menuX + STAND_FRAME_LEFT,
+                menuY + STAND_FRAME_TOP,
+                menuX + STAND_FRAME_RIGHT,
+                menuY + STAND_FRAME_BOTTOM
             );
         }
     }
@@ -120,9 +117,9 @@ public class SmithingPreview {
             && my < (y + STAND_FRAME_BOTTOM);
     }
 
-    public boolean mouseClicked(int menuX, int menuY, double mx, double my, int button) {
+    public boolean mouseClicked(@NonNull MouseButtonEvent event, int menuX, int menuY) {
         if (BstConfig.dragToRotate) {
-            if (button == 0 && isMouseOver(menuX, menuY, mx, my)) {
+            if (event.button() == 0 && isMouseOver(menuX, menuY, event.x(), event.y())) {
                 dragging = true;
                 yRotVelocity = 0;
                 mouseDeltaXAccum = 0;
@@ -132,7 +129,7 @@ public class SmithingPreview {
         return false;
     }
 
-    public boolean mouseDragged(double mx, double my, int button, double dx, double dy) {
+    public boolean mouseDragged(double dx) {
         if (dragging) {
             mouseDeltaXAccum += (float) dx;
             return true;
@@ -140,8 +137,8 @@ public class SmithingPreview {
         return false;
     }
 
-    public boolean mouseReleased(double mx, double my, int button) {
-        if (dragging && button == 0) {
+    public boolean mouseReleased(@NonNull MouseButtonEvent event) {
+        if (dragging && event.button() == 0) {
             dragging = false;
             return true;
         }

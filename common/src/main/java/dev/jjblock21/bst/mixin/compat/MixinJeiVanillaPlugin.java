@@ -3,9 +3,8 @@ package dev.jjblock21.bst.mixin.compat;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import dev.jjblock21.bst.RequiresMod;
-import mezz.jei.api.recipe.RecipeType;
+import mezz.jei.api.recipe.types.IRecipeType;
 import mezz.jei.api.registration.IGuiHandlerRegistration;
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.SmithingScreen;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -19,19 +18,18 @@ public class MixinJeiVanillaPlugin {
         method = "registerGuiHandlers",
         at = @At(
             value = "INVOKE",
-            target = "Lmezz/jei/api/registration/IGuiHandlerRegistration;addRecipeClickArea(Ljava/lang/Class;IIII[Lmezz/jei/api/recipe/RecipeType;)V"
+            target = "Lmezz/jei/api/registration/IGuiHandlerRegistration;addRecipeClickArea(Ljava/lang/Class;IIII[Lmezz/jei/api/recipe/types/IRecipeType;)V"
         )
     )
-    private void addRecipeClickArea(IGuiHandlerRegistration reg, Class<? extends AbstractContainerScreen<?>> clazz,
-                                    int x, int y, int width, int height, RecipeType<?>[] recipeTypes,
-                                    Operation<Void> operation) {
-        if (clazz == SmithingScreen.class) {
+    private void addRecipeClickArea(IGuiHandlerRegistration instance, Class<?> screenClass, int x, int y,
+                                    int width, int height, IRecipeType<?>[] recipeTypes, Operation<Void> original) {
+        if (screenClass == SmithingScreen.class) {
             // register custom click areas instead
             // use the hammer and fire icons instead of the arrow from vanilla
-            operation.call(reg, clazz, 40, 27, 12, 12, recipeTypes);
-            operation.call(reg, clazz, 20, 47, 12, 12, recipeTypes);
+            original.call(instance, screenClass, 40, 27, 12, 12, recipeTypes);
+            original.call(instance, screenClass, 20, 47, 12, 12, recipeTypes);
         } else {
-            operation.call(reg, clazz, x, y, width, height, recipeTypes);
+            original.call(instance, screenClass, x, y, width, height, recipeTypes);
         }
     }
 }
