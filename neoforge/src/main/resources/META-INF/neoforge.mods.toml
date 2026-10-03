@@ -9,7 +9,7 @@ modId = "${mod_id}"
 version = "${version}"
 displayName = "${mod_name}"
 displayURL = "${repository_url}"
-logoFile = "icon.png"
+iconFile = "icon.png"
 authors = "${author}"
 description = '''${description}'''
 

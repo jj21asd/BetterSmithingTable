@@ -18,8 +18,8 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.SmithingMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.equipment.Equippable;
-import org.joml.Quaternionf;
-import org.joml.Vector3f;
+import org.joml.Quaternionfc;
+import org.joml.Vector3fc;
 import org.jspecify.annotations.NonNull;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -125,11 +125,11 @@ public abstract class MixinSmithingScreen extends ItemCombinerScreen<SmithingMen
         method = "extractBackground",
         at = @At(
             value = "INVOKE",
-            target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;entity(Lnet/minecraft/client/renderer/entity/state/EntityRenderState;FLorg/joml/Vector3f;Lorg/joml/Quaternionf;Lorg/joml/Quaternionf;IIII)V"
+            target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;entity(Lnet/minecraft/client/renderer/entity/state/EntityRenderState;FLorg/joml/Vector3fc;Lorg/joml/Quaternionfc;Lorg/joml/Quaternionfc;IIII)V"
         )
     )
     private void extractEntity(GuiGraphicsExtractor graphics, EntityRenderState renderState, float scale,
-                               Vector3f pos, Quaternionf rot, Quaternionf camAngle, int x0, int y0, int x1, int y1) {
+                               Vector3fc pos, Quaternionfc rot, Quaternionfc camAngle, int x0, int y0, int x1, int y1) {
         bst$preview.extract(graphics, leftPos, topPos, armorStandPreview);
     }
 
