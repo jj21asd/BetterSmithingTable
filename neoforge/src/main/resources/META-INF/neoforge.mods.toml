@@ -27,5 +27,12 @@ versionRange = "${minecraft_version_range_neoforge}"
 ordering = "NONE"
 side = "BOTH"
 
+[[dependencies.${mod_id}]]
+modId = "midnightlib"
+type = "required"
+versionRange = "${midnight_version_range_neoforge}"
+ordering = "NONE"
+side = "BOTH"
+
 [[mixins]]
 config = "${mod_id}.mixins.json"
