@@ -1,6 +1,6 @@
 # Better Smithing Table
 
-I dislike the smithing table menu, so I made a mod to make it look a little better.
+I don't like the new smithing table menu, so I made a mod to make it look a little better.
 
 The binaries are available on [Modrinth](https://modrinth.com/mod/bettersmithingtable)
 and [Curseforge](https://www.curseforge.com/minecraft/mc-mods/bettersmithingtable).
@@ -15,4 +15,4 @@ The source code for each version of Minecraft lives on its own branch:
 - `26.1`: Source code for 26.1.x
 - `26.2`: Source code for 26.2
 - `26.3`: Source code for 26.3
-- `legacy/...`: The old branches from the previous messy version of this repository.
+- `legacy/...`: Old branches from the previous (messy) version of this repository
