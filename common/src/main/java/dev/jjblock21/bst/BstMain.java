@@ -6,6 +6,6 @@ public final class BstMain {
     public static final String MOD_ID = "better_smithing_table";
 
     public static void init() {
-        MidnightConfig.init(MOD_ID, BstConfig.class);
+        MidnightConfig.register(MOD_ID, BstConfig.class);
     }
 }
