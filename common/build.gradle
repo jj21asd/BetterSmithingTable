@@ -15,3 +15,10 @@ dependencies {
     modCompileOnly("eu.midnightdust:midnightlib:$midnight_version_fabric")
     modCompileOnlyApi("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
 }
+
+// force a sponge-mixin version matching what's bundled on Forge (mixin 0.8.5)
+configurations.configureEach {
+    resolutionStrategy {
+        force "net.fabricmc:sponge-mixin:0.13.4+mixin.0.8.5"
+    }
+}
