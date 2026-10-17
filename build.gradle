@@ -54,22 +54,15 @@ subprojects {
     tasks.withType(JavaCompile).configureEach {
         it.options.release = Integer.valueOf(java_version)
     }
+}
 
-    // configure Maven publishing
-    /*publishing {
-        publications {
-            mavenJava(MavenPublication) {
-                artifactId = base.archivesName.get()
-                from components.java
-            }
-        }
-
-        // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
-        repositories {
-            // Add repositories to publish to here.
-            // Notice: This block does NOT have the same function as the block in the top level.
-            // The repositories here will be used for publishing your artifact, not for
-            // retrieving dependencies.
-        }
-    }*/
+tasks.register("fixIdeaRuns") {
+    group = "helpers"
+    description = "Regenerates outdated IDEA run configs. DELETES ALL RUN CONFIGS!"
+    delete(layout.projectDirectory.dir(".idea/runConfigurations"))
+    finalizedBy {
+        subprojects
+                .findAll { it.tasks.names.contains('ideaSyncTask') }
+                .collect { it.tasks.named('ideaSyncTask') }
+    }
 }
