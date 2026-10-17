@@ -37,8 +37,6 @@ public class BstMixinConfigPlugin implements IMixinConfigPlugin {
         }
     }
 
-    // these have to be declared for Forge where IMixinConfigPlugin doesn't have
-    // default implementations for them
     @Override
     public void onLoad(String mixinPackage) {
     }
