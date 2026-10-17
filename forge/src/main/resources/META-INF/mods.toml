@@ -26,3 +26,10 @@ mandatory = true
 versionRange = "${minecraft_version_range_forge}"
 ordering = "NONE"
 side = "BOTH"
+
+[[dependencies.${mod_id}]]
+modId = "midnightlib"
+mandatory = true
+versionRange = "${midnight_version_range_forge}"
+ordering = "NONE"
+side = "BOTH"
