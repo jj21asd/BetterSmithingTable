@@ -15,7 +15,9 @@ def allowedProps = [
         'fabric_loader_version_range',
         'neoforge_version',
         'neoforge_version_range',
-        'neoforge_loader_version_range'
+        'neoforge_loader_version_range',
+        'midnight_version_range_fabric',
+        'midnight_version_range_neoforge'
 ]
 
 static def escapeLiteral(String value) {
