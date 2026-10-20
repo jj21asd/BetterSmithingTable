@@ -33,8 +33,6 @@ dependencies {
     // dependency of MidnightLib
     modLocalRuntime("net.fabricmc.fabric-api:fabric-api:$fabric_api_version")
 
-    compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:$mixin_extras_version"))
-
     if (load_testing_mods.toBoolean()) {
         modLocalRuntime("mezz.jei:jei-${minecraft_version}-fabric:${jei_version}")
         modLocalRuntime("dev.architectury:architectury-fabric:${architectury_api_version}")

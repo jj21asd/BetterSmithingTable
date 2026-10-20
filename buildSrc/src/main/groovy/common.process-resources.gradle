@@ -18,8 +18,7 @@ def allowedProps = [
         'forge_loader_version_range',
         'midnight_version_range_fabric',
         'midnight_version_range_forge',
-        'mixin_extras_version_range_fabric',
-        'mixin_extras_version_range_forge',
+        'mixin_extras_version_range_forge'
 ]
 
 static def escapeLiteral(String value) {

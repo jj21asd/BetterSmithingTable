@@ -14,8 +14,6 @@ dependencies {
     // loader specific version is bundled in inside fabric/forge subprojects
     modCompileOnly("eu.midnightdust:midnightlib:$midnight_version_fabric")
     modCompileOnlyApi("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
-
-    compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:$mixin_extras_version"))
 }
 
 // force a sponge-mixin version matching what's bundled on Forge (mixin 0.8.5)
