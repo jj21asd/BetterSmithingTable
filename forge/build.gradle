@@ -35,8 +35,14 @@ dependencies {
 
     modImplementation(include("eu.midnightdust:midnightlib:$midnight_version_forge"))
 
+    compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:$mixin_extras_version"))
+    implementation(include("io.github.llamalad7:mixinextras-forge:$mixin_extras_version"))
+
     if (load_testing_mods.toBoolean()) {
         modLocalRuntime("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
+        modLocalRuntime("dev.architectury:architectury-forge:${architectury_api_version}")
+        modLocalRuntime("me.shedaniel.cloth:cloth-config-forge:${cloth_config_version}")
+        modLocalRuntime("maven.modrinth:brb:${brb_version}-forge")
     }
 
     common(project(path: ':common', configuration: 'namedElements')) { transitive = false }

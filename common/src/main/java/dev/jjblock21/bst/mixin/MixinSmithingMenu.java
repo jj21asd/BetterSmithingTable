@@ -14,8 +14,8 @@ import java.util.List;
 
 @Mixin(SmithingMenu.class)
 public class MixinSmithingMenu {
-    @Shadow
     @Final
+    @Shadow
     private List<SmithingRecipe> recipes;
 
     // reposition the slots to fit the custom menu texture
