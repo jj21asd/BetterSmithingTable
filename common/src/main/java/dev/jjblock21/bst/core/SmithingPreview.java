@@ -1,5 +1,6 @@
-package dev.jjblock21.bst;
+package dev.jjblock21.bst.core;
 
+import dev.jjblock21.bst.BstConfig;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.util.Mth;

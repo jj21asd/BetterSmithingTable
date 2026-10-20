@@ -1,8 +1,12 @@
 package dev.jjblock21.bst.mixin;
 
+import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import dev.jjblock21.bst.BstConfig;
 import dev.jjblock21.bst.BstMain;
-import dev.jjblock21.bst.SmithingPreview;
+import dev.jjblock21.bst.core.SmithingPreview;
+import dev.jjblock21.bst.core.SmithingPreviewHolder;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.CyclingSlotBackground;
 import net.minecraft.client.gui.screens.inventory.ItemCombinerScreen;
@@ -25,16 +29,15 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(SmithingScreen.class)
-public abstract class MixinSmithingScreen extends ItemCombinerScreen<SmithingMenu> {
-    @Unique
-    private SmithingPreview bst$preview;
-
+public abstract class MixinSmithingScreen extends ItemCombinerScreen<SmithingMenu> implements SmithingPreviewHolder {
     @Shadow
     private ArmorStand armorStandPreview;
+
+    @Unique
+    private SmithingPreview bst$preview;
 
     // dummy constructor
     public MixinSmithingScreen(SmithingMenu itemCombinerMenu, Inventory inventory, Component component,
@@ -42,13 +45,9 @@ public abstract class MixinSmithingScreen extends ItemCombinerScreen<SmithingMen
         super(itemCombinerMenu, inventory, component, resourceLocation);
     }
 
-    @Inject(method = "<init>", at = @At("TAIL"))
-    private void constructor(SmithingMenu menu, Inventory inv, Component component, CallbackInfo ci) {
-        bst$preview = new SmithingPreview();
-
-        // customize title text position
-        titleLabelX = 8;
-        titleLabelY = 6;
+    @Override
+    public SmithingPreview bst$getSmithingPreview() {
+        return bst$preview;
     }
 
     // replace the menu texture
@@ -64,6 +63,21 @@ public abstract class MixinSmithingScreen extends ItemCombinerScreen<SmithingMen
         return ResourceLocation.fromNamespaceAndPath(BstMain.MOD_ID, "menu.png");
     }
 
+    @Inject(method = "<init>", at = @At("TAIL"))
+    private void constructor(SmithingMenu menu, Inventory inv, Component component, CallbackInfo ci) {
+        bst$preview = new SmithingPreview();
+
+        // customize title text position
+        titleLabelX = 8;
+        titleLabelY = 6;
+    }
+
+    // customize the display armor stand
+    @Inject(method = "subInit", at = @At("TAIL"))
+    private void subInit(CallbackInfo ci) {
+        SmithingPreview.initArmorStand(armorStandPreview);
+    }
+
     // prevent recipe error indicator from being drawn over the non-existent arrow
     @Inject(method = "renderErrorIcon", at = @At("HEAD"), cancellable = true)
     private void renderErrorIcon(GuiGraphics guiGraphics, int i, int j, CallbackInfo ci) {
@@ -71,32 +85,22 @@ public abstract class MixinSmithingScreen extends ItemCombinerScreen<SmithingMen
     }
 
     // hide the weird tooltips that no other menu has
-    @Redirect(
-        method = "render",
-        at = @At(
-            value = "INVOKE",
-            target = "Lnet/minecraft/client/gui/screens/inventory/SmithingScreen;renderOnboardingTooltips(Lnet/minecraft/client/gui/GuiGraphics;II)V"
-        )
-    )
-    private void renderOnboardingTooltips(SmithingScreen instance, GuiGraphics arg, int i, int j) {
+    @Inject(method = "renderOnboardingTooltips", at = @At("HEAD"), cancellable = true)
+    private void renderOnboardingTooltips(GuiGraphics gfx, int i, int j, CallbackInfo ci) {
+        ci.cancel();
     }
 
     // hide the weird slot icons
-    @Redirect(
+    @WrapWithCondition(
         method = "renderBg",
         at = @At(
             value = "INVOKE",
             target = "Lnet/minecraft/client/gui/screens/inventory/CyclingSlotBackground;render(Lnet/minecraft/world/inventory/AbstractContainerMenu;Lnet/minecraft/client/gui/GuiGraphics;FII)V"
         )
     )
-    private void renderSlotBackground(CyclingSlotBackground instance, AbstractContainerMenu arg,
-                                      GuiGraphics arg2, float f, int i, int j) {
-    }
-
-    // customize the display armor stand
-    @Inject(method = "subInit", at = @At("TAIL"))
-    private void subInit(CallbackInfo ci) {
-        SmithingPreview.initArmorStand(armorStandPreview);
+    private boolean shouldRenderSlotBackground(CyclingSlotBackground instance, AbstractContainerMenu arg,
+                                               GuiGraphics arg2, float f, int i, int j) {
+        return false;
     }
 
     @Inject(method = "updateArmorStandPreview", at = @At("HEAD"))
@@ -108,23 +112,23 @@ public abstract class MixinSmithingScreen extends ItemCombinerScreen<SmithingMen
     }
 
     // if arms are disabled, avoid putting anything into the hands
-    @Redirect(
+    @WrapOperation(
         method = "updateArmorStandPreview",
         at = @At(
             value = "INVOKE",
             target = "Lnet/minecraft/world/entity/decoration/ArmorStand;setItemSlot(Lnet/minecraft/world/entity/EquipmentSlot;Lnet/minecraft/world/item/ItemStack;)V"
         )
     )
-    private void setItemSlot(ArmorStand armorStand, EquipmentSlot slot, ItemStack item) {
+    private void setItemSlot(ArmorStand armorStand, EquipmentSlot slot, ItemStack item, Operation<Void> original) {
         if (BstConfig.armlessArmorStand &&
             (slot == EquipmentSlot.MAINHAND || slot == EquipmentSlot.OFFHAND)) {
-            return;
+            item = ItemStack.EMPTY;
         }
-        armorStand.setItemSlot(slot, item);
+        original.call(armorStand, slot, item);
     }
 
     // render custom movable preview
-    @Redirect(
+    @WrapOperation(
         method = "renderBg",
         at = @At(
             value = "INVOKE",
@@ -132,25 +136,7 @@ public abstract class MixinSmithingScreen extends ItemCombinerScreen<SmithingMen
         )
     )
     private void renderEntityInInventory(GuiGraphics gfx, float f, float g, float h, Vector3f v, Quaternionf q1,
-                                         Quaternionf q2, LivingEntity entity) {
+                                         Quaternionf q2, LivingEntity entity, Operation<Void> original) {
         bst$preview.render(gfx, leftPos, topPos, armorStandPreview);
-    }
-
-    @Override
-    public boolean mouseClicked(double mx, double my, int button) {
-        if (bst$preview.mouseClicked(leftPos, topPos, mx, my, button)) return true;
-        return super.mouseClicked(mx, my, button);
-    }
-
-    @Override
-    public boolean mouseDragged(double mx, double my, int button, double dx, double dy) {
-        if (bst$preview.mouseDragged(mx, my, button, dx, dy)) return true;
-        return super.mouseDragged(mx, my, button, dx, dy);
-    }
-
-    @Override
-    public boolean mouseReleased(double mx, double my, int button) {
-        if (bst$preview.mouseReleased(mx, my, button)) return true;
-        return super.mouseReleased(mx, my, button);
     }
 }

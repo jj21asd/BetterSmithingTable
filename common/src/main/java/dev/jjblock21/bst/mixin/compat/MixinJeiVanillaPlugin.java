@@ -20,18 +20,19 @@ public class MixinJeiVanillaPlugin {
         at = @At(
             value = "INVOKE",
             target = "Lmezz/jei/api/registration/IGuiHandlerRegistration;addRecipeClickArea(Ljava/lang/Class;IIII[Lmezz/jei/api/recipe/RecipeType;)V"
-        )
+        ),
+        require = 0
     )
     private void addRecipeClickArea(IGuiHandlerRegistration reg, Class<? extends AbstractContainerScreen<?>> clazz,
                                     int x, int y, int width, int height, RecipeType<?>[] recipeTypes,
-                                    Operation<Void> operation) {
+                                    Operation<Void> original) {
         if (clazz == SmithingScreen.class) {
             // register custom click areas instead
             // use the hammer and fire icons instead of the arrow from vanilla
-            operation.call(reg, clazz, 40, 27, 12, 12, recipeTypes);
-            operation.call(reg, clazz, 20, 47, 12, 12, recipeTypes);
+            original.call(reg, clazz, 40, 27, 12, 12, recipeTypes);
+            original.call(reg, clazz, 20, 47, 12, 12, recipeTypes);
         } else {
-            operation.call(reg, clazz, x, y, width, height, recipeTypes);
+            original.call(reg, clazz, x, y, width, height, recipeTypes);
         }
     }
 }

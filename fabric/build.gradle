@@ -30,9 +30,13 @@ dependencies {
     modImplementation("com.terraformersmc:modmenu:$mod_menu_version")
     modImplementation(include("eu.midnightdust:midnightlib:${midnight_version_fabric}"))
 
+    // dependency of MidnightLib
+    modLocalRuntime("net.fabricmc.fabric-api:fabric-api:$fabric_api_version")
+
     if (load_testing_mods.toBoolean()) {
-        modLocalRuntime("net.fabricmc.fabric-api:fabric-api:$fabric_api_version")
         modLocalRuntime("mezz.jei:jei-${minecraft_version}-fabric:${jei_version}")
+        modLocalRuntime("me.shedaniel.cloth:cloth-config-fabric:${cloth_config_version}")
+        modLocalRuntime("maven.modrinth:better-recipe-book-extended:${brbe_version}-fabric,$minecraft_version")
     }
 
     common(project(path: ':common', configuration: 'namedElements')) { transitive = false }
