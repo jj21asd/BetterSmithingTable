@@ -5,6 +5,7 @@
   "minVersion": "0.8",
   "plugin": "dev.jjblock21.bst.BstMixinConfigPlugin",
   "client": [
+    "MixinAbstractContainerScreen",
     "MixinSmithingMenu",
     "MixinSmithingScreen",
     "compat.MixinJeiVanillaPlugin"
