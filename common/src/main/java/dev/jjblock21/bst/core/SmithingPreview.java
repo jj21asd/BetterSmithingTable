@@ -1,5 +1,6 @@
-package dev.jjblock21.bst;
+package dev.jjblock21.bst.core;
 
+import dev.jjblock21.bst.BstConfig;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.entity.state.ArmorStandRenderState;
