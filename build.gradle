@@ -68,7 +68,7 @@ subprojects {
     }
 }
 
-tasks.register("fixIdeaRuns") {
+tasks.register("fixIdeaRuns", Delete) {
     group = "helpers"
     description = "Regenerates outdated IDEA run configs. DELETES ALL RUN CONFIGS!"
     delete(layout.projectDirectory.dir(".idea/runConfigurations"))
