@@ -40,9 +40,11 @@ dependencies {
 
     if (load_testing_mods.toBoolean()) {
         modLocalRuntime("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
-        modLocalRuntime("dev.architectury:architectury-forge:${architectury_api_version}")
-        modLocalRuntime("me.shedaniel.cloth:cloth-config-forge:${cloth_config_version}")
-        modLocalRuntime("maven.modrinth:brb:${brb_version}-forge")
+        // Better Recipe Book doesn't work in the dev environment on Forge because of hardcoded SRG names
+        // in ForgePotionBrewingMixAccessor.java
+        //modLocalRuntime("dev.architectury:architectury-forge:${architectury_api_version}")
+        //modLocalRuntime("me.shedaniel.cloth:cloth-config-forge:${cloth_config_version}")
+        //modLocalRuntime("maven.modrinth:brb:${brb_version}-forge")
     }
 
     common(project(path: ':common', configuration: 'namedElements')) { transitive = false }
