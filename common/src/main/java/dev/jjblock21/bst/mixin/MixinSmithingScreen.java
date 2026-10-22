@@ -11,18 +11,19 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.CyclingSlotBackground;
 import net.minecraft.client.gui.screens.inventory.ItemCombinerScreen;
 import net.minecraft.client.gui.screens.inventory.SmithingScreen;
+import net.minecraft.client.renderer.entity.state.ArmorStandRenderState;
+import net.minecraft.client.renderer.entity.state.EntityRenderState;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.decoration.ArmorStand;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.SmithingMenu;
-import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.equipment.Equippable;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -34,15 +35,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(SmithingScreen.class)
 public abstract class MixinSmithingScreen extends ItemCombinerScreen<SmithingMenu> implements SmithingPreviewHolder {
     @Shadow
-    private ArmorStand armorStandPreview;
+    @Final
+    private ArmorStandRenderState armorStandPreview;
 
     @Unique
     private SmithingPreview bst$preview;
 
     // dummy constructor
     public MixinSmithingScreen(SmithingMenu itemCombinerMenu, Inventory inventory, Component component,
-                               ResourceLocation resourceLocation) {
-        super(itemCombinerMenu, inventory, component, resourceLocation);
+                               Identifier identifier) {
+        super(itemCombinerMenu, inventory, component, identifier);
     }
 
     @Override
@@ -55,12 +57,12 @@ public abstract class MixinSmithingScreen extends ItemCombinerScreen<SmithingMen
         method = "<init>",
         at = @At(
             value = "INVOKE",
-            target = "Lnet/minecraft/client/gui/screens/inventory/ItemCombinerScreen;<init>(Lnet/minecraft/world/inventory/ItemCombinerMenu;Lnet/minecraft/world/entity/player/Inventory;Lnet/minecraft/network/chat/Component;Lnet/minecraft/resources/ResourceLocation;)V"
+            target = "Lnet/minecraft/client/gui/screens/inventory/ItemCombinerScreen;<init>(Lnet/minecraft/world/inventory/ItemCombinerMenu;Lnet/minecraft/world/entity/player/Inventory;Lnet/minecraft/network/chat/Component;Lnet/minecraft/resources/Identifier;)V"
         ),
         index = 3
     )
-    private static ResourceLocation getSmithingLocation(ResourceLocation old) {
-        return ResourceLocation.fromNamespaceAndPath(BstMain.MOD_ID, "menu.png");
+    private static Identifier getSmithingLocation(Identifier old) {
+        return Identifier.fromNamespaceAndPath(BstMain.MOD_ID, "menu.png");
     }
 
     @Inject(method = "<init>", at = @At("TAIL"))
@@ -103,28 +105,20 @@ public abstract class MixinSmithingScreen extends ItemCombinerScreen<SmithingMen
         return false;
     }
 
-    @Inject(method = "updateArmorStandPreview", at = @At("HEAD"))
+    // if arms are disabled, avoid putting anything into the hands
+    @Inject(method = "updateArmorStandPreview", at = @At("TAIL"))
     private void updateArmorStandPreview(ItemStack item, CallbackInfo ci) {
-        if (BstConfig.armlessArmorStand && !(item.getItem() instanceof ArmorItem)) {
-            item = ItemStack.EMPTY;
+        if (BstConfig.armlessArmorStand) {
+            Equippable equippable = item.get(DataComponents.EQUIPPABLE);
+            if (!item.isEmpty() && equippable == null) {
+                item = ItemStack.EMPTY;
+
+                // clear item assigned by vanilla code
+                armorStandPreview.leftHandItemStack = ItemStack.EMPTY;
+                armorStandPreview.leftHandItemState.clear();
+            }
         }
         bst$preview.setDisplayItem(item);
-    }
-
-    // if arms are disabled, avoid putting anything into the hands
-    @WrapOperation(
-        method = "updateArmorStandPreview",
-        at = @At(
-            value = "INVOKE",
-            target = "Lnet/minecraft/world/entity/decoration/ArmorStand;setItemSlot(Lnet/minecraft/world/entity/EquipmentSlot;Lnet/minecraft/world/item/ItemStack;)V"
-        )
-    )
-    private void setItemSlot(ArmorStand armorStand, EquipmentSlot slot, ItemStack item, Operation<Void> original) {
-        if (BstConfig.armlessArmorStand &&
-            (slot == EquipmentSlot.MAINHAND || slot == EquipmentSlot.OFFHAND)) {
-            item = ItemStack.EMPTY;
-        }
-        original.call(armorStand, slot, item);
     }
 
     // render custom movable preview
@@ -132,11 +126,12 @@ public abstract class MixinSmithingScreen extends ItemCombinerScreen<SmithingMen
         method = "renderBg",
         at = @At(
             value = "INVOKE",
-            target = "Lnet/minecraft/client/gui/screens/inventory/InventoryScreen;renderEntityInInventory(Lnet/minecraft/client/gui/GuiGraphics;FFFLorg/joml/Vector3f;Lorg/joml/Quaternionf;Lorg/joml/Quaternionf;Lnet/minecraft/world/entity/LivingEntity;)V"
+            target = "Lnet/minecraft/client/gui/GuiGraphics;submitEntityRenderState(Lnet/minecraft/client/renderer/entity/state/EntityRenderState;FLorg/joml/Vector3f;Lorg/joml/Quaternionf;Lorg/joml/Quaternionf;IIII)V"
         )
     )
-    private void renderEntityInInventory(GuiGraphics gfx, float f, float g, float h, Vector3f v, Quaternionf q1,
-                                         Quaternionf q2, LivingEntity entity, Operation<Void> original) {
-        bst$preview.render(gfx, leftPos, topPos, armorStandPreview);
+    private void renderEntityInInventory(GuiGraphics graphics, EntityRenderState entityRenderState, float f,
+                                         Vector3f pos, Quaternionf rot, Quaternionf camAngle, int i, int j,
+                                         int k, int l, Operation<Void> original) {
+        bst$preview.render(graphics, leftPos, topPos, armorStandPreview);
     }
 }

@@ -37,8 +37,9 @@ dependencies {
     modImplementation(include("eu.midnightdust:midnightlib:$midnight_version_neoforge"))
 
     if (load_testing_mods.toBoolean()) {
-        modLocalRuntime("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
-        modLocalRuntime("me.shedaniel.cloth:cloth-config-neoforge:${cloth_config_version}")
+        modLocalRuntime("net.mezzdev.config:mezz_config-${minecraft_version}-neoforge:$mezz_config_version")
+        modLocalRuntime("mezz.jei:jei-${minecraft_version}-neoforge:$jei_version")
+        modLocalRuntime("me.shedaniel.cloth:cloth-config-neoforge:$cloth_config_version")
         modLocalRuntime("maven.modrinth:better-recipe-book-extended:${brbe_version}-neoforge,$minecraft_version")
     }
 
