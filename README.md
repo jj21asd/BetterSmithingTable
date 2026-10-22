@@ -11,7 +11,8 @@ This branch (`main`) only contains the README.
 The source code for each version of Minecraft lives on its own branch:
 
 - `1.20`: Source code for 1.20 and 1.20.1
-- `1.21`: Source code for 1.21 and 1.21.1
+- `1.21.1`: Source code for 1.21.1
+- `1.21.11`: Source code for 1.21.11
 - `26.1`: Source code for 26.1.x
 - `26.2`: Source code for 26.2
 - `26.3`: Source code for 26.3
