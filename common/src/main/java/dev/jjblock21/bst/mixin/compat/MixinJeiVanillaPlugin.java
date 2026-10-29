@@ -23,9 +23,9 @@ public class MixinJeiVanillaPlugin {
         ),
         require = 0
     )
-    private void addRecipeClickArea(IGuiHandlerRegistration reg, Class<? extends AbstractContainerScreen<?>> clazz,
-                                    int x, int y, int width, int height, RecipeType<?>[] recipeTypes,
-                                    Operation<Void> original) {
+    private static void addRecipeClickArea(IGuiHandlerRegistration reg, Class<? extends AbstractContainerScreen<?>> clazz,
+                                           int x, int y, int width, int height, RecipeType<?>[] recipeTypes,
+                                           Operation<Void> original) {
         if (clazz == SmithingScreen.class) {
             // register custom click areas instead
             // use the hammer and fire icons instead of the arrow from vanilla

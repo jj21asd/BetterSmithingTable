@@ -39,6 +39,7 @@ dependencies {
     implementation(include("io.github.llamalad7:mixinextras-forge:$mixin_extras_version"))
 
     if (load_testing_mods.toBoolean()) {
+        modLocalRuntime("net.mezzdev.config:mezz_config-${minecraft_version}-forge:${mezz_config_version}")
         modLocalRuntime("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
         // Better Recipe Book doesn't work in the dev environment on Forge because of hardcoded SRG names
         // in ForgePotionBrewingMixAccessor.java
